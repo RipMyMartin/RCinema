@@ -10,7 +10,7 @@ namespace RCinema_db
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\opilane\source\repos\RCinema-db\RCinema-db\Database.mdf;Integrated Security=True"))
+                using (SqlConnection conn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\ripmy\source\repos\RCinema-db\RCinema-db\Database.mdf;Integrated Security=True"))
                 {
                     conn.Open();
                     string createTablesQuery = @"
@@ -21,9 +21,10 @@ namespace RCinema_db
                             UserID INT NOT NULL IDENTITY(1,1),  
                             Username NVARCHAR(20) NOT NULL,
                             Email NVARCHAR(255) NOT NULL,  
-                            PasswordHash NVARCHAR(255) NOT NULL,  
+                            Password NVARCHAR(255) NOT NULL,  
                             Role NVARCHAR(20) NOT NULL,
                             CONSTRAINT Users_pk PRIMARY KEY (UserID)
+
                         );
                     END
 
@@ -70,6 +71,9 @@ namespace RCinema_db
                             CONSTRAINT Booking_Users FOREIGN KEY (UserID) REFERENCES Users (UserID)
                         );
                     END
+
+
+
                     ";
 
                     using (SqlCommand cmd = new SqlCommand(createTablesQuery, conn))
