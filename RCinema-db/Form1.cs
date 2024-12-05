@@ -8,8 +8,8 @@ namespace RCinema_db
         {
             InitializeComponent();
             CreateDatabase();
+            //BLA TI DAUN
         }
-
 
         private void CreateDatabase()
         {
