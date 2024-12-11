@@ -129,7 +129,6 @@ namespace RCinema_db
                     {
                         conn.Open();
 
-                        // Заменен параметр на Password вместо PasswordHash
                         string query = "SELECT Role FROM Users WHERE Username = @Username AND Password = @Password";
                         using (SqlCommand cmd = new SqlCommand(query, conn))
                         {
@@ -143,13 +142,11 @@ namespace RCinema_db
                                 string role = result.ToString();
                                 if (role == "Admin")
                                 {
-                                    MessageBox.Show("Welcome, Admin!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     AdminForm adminForm = new AdminForm();
                                     adminForm.Show();
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Welcome, User!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     MainForm mainForm = new MainForm();
                                     mainForm.Show();
                                 }
@@ -228,7 +225,7 @@ namespace RCinema_db
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\ripmy\source\repos\RCinema-db\RCinema-db\Database.mdf;Integrated Security=True"))
+                using (SqlConnection conn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\opilane\source\repos\RCinema-db\RCinema-db\Database.mdf;Integrated Security=True"))
                 {
                     conn.Open();
 

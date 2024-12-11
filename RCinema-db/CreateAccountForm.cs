@@ -116,23 +116,21 @@ namespace RCinema_db
 
                 try
                 {
-                    using (SqlConnection conn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\ripmy\source\repos\RCinema-db\RCinema-db\Database.mdf;Integrated Security=True"))
+                    using (SqlConnection conn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\opilane\source\repos\RCinema-db\RCinema-db\Database.mdf;Integrated Security=True"))
                     {
                         conn.Open();
 
-                        string query = "INSERT INTO Users (Username, Email, PasswordHash, Role) VALUES (@Username, @Email, @PasswordHash, @Role)";
+                        string query = "INSERT INTO Users (Username, Email, Password, Role) VALUES (@Username, @Email, @Password, @Role)";
                         using (SqlCommand cmd = new SqlCommand(query, conn))
                         {
                             cmd.Parameters.AddWithValue("@Username", username);
                             cmd.Parameters.AddWithValue("@Email", email);
-                            cmd.Parameters.AddWithValue("@PasswordHash", password); 
+                            cmd.Parameters.AddWithValue("@Password", password); 
                             cmd.Parameters.AddWithValue("@Role", "User");
 
                             cmd.ExecuteNonQuery();
                         }
                     }
-
-                    MessageBox.Show("Account created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close();
                 }
                 catch (Exception ex)

@@ -24,7 +24,6 @@ namespace RCinema_db
                             Password NVARCHAR(255) NOT NULL,  
                             Role NVARCHAR(20) NOT NULL,
                             CONSTRAINT Users_pk PRIMARY KEY (UserID)
-
                         );
                     END
 
