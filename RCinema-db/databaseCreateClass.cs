@@ -10,7 +10,7 @@ namespace RCinema_db
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\ripmy\source\repos\RCinema-db\RCinema-db\Database.mdf;Integrated Security=True"))
+                using (SqlConnection conn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\opilane\source\repos\RCinema-db\RCinema-db\Database.mdf;Integrated Security=True"))
                 {
                     conn.Open();
                     string createTablesQuery = @"
@@ -70,10 +70,11 @@ namespace RCinema_db
                             CONSTRAINT Booking_Movies FOREIGN KEY (MovieID) REFERENCES Movies (MovieID),
                             CONSTRAINT Booking_Users FOREIGN KEY (UserID) REFERENCES Users (UserID)
                         );
+                            
+                        -- INSERT INTO Users (Username,Email,Password,Role)
+                        -- VALUES ('admin','admin@example',1234,'Admin')
+
                     END
-
-
-
                     ";
 
                     using (SqlCommand cmd = new SqlCommand(createTablesQuery, conn))
