@@ -8,11 +8,12 @@ namespace RCinema_db
     {
         public void CreateDatabase()
         {
+            SqlConnection conn = null;
             try
             {
-                using (SqlConnection conn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\opilane\source\repos\RCinema-db\RCinema-db\Database.mdf;Integrated Security=True"))
-                {
+                    conn = DatabaseConnection.GetConnection();
                     conn.Open();
+
                     string createTablesQuery = @"
                     -- Create 'Users' table if it does not exist
                     IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Users' AND xtype = 'U')
@@ -80,11 +81,17 @@ namespace RCinema_db
                     {
                         cmd.ExecuteNonQuery();
                     }
-                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Viga andmebaasi või tabeli loomisel: " + ex.Message);
+            }
+            finally
+            {
+                if (conn != null && conn.State == System.Data.ConnectionState.Open)
+                {
+                    conn.Close();
+                }
             }
         }
     }

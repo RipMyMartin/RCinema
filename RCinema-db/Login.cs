@@ -5,6 +5,7 @@ namespace RCinema_db
 {
     public partial class Login : Form
     {
+        SqlConnection conn = null;
         public Login()
         {
             InitializeComponent();
@@ -122,12 +123,11 @@ namespace RCinema_db
                     MessageBox.Show("Please enter your username and password.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-
+               
                 try
                 {
-                    using (SqlConnection conn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\opilane\source\repos\RCinema-db\RCinema-db\Database.mdf;Integrated Security=True"))
-                    {
-                        conn.Open();
+                    conn = DatabaseConnection.GetConnection();
+                    conn.Open();
 
                         string query = "SELECT Role FROM Users WHERE Username = @Username AND Password = @Password";
                         using (SqlCommand cmd = new SqlCommand(query, conn))
@@ -156,11 +156,17 @@ namespace RCinema_db
                                 MessageBox.Show("Invalid username or password.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
                         }
-                    }
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Error logging in: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    if (conn != null && conn.State == System.Data.ConnectionState.Open)
+                    {
+                        conn.Close();
+                    }
                 }
             };
 
@@ -225,9 +231,8 @@ namespace RCinema_db
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\opilane\source\repos\RCinema-db\RCinema-db\Database.mdf;Integrated Security=True"))
-                {
-                    conn.Open();
+                conn = DatabaseConnection.GetConnection();
+                conn.Open();
 
                     string insertQuery = "INSERT INTO Users (Username, Password, Role) VALUES (@Username, @Password, @Role)";
                     using (SqlCommand cmd = new SqlCommand(insertQuery, conn))
@@ -239,11 +244,17 @@ namespace RCinema_db
                         cmd.ExecuteNonQuery();
                         MessageBox.Show($"Пользователь {username} создан!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Ошибка при создании пользователя: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (conn != null && conn.State == System.Data.ConnectionState.Open)
+                {
+                    conn.Close();
+                }
             }
         }
     }

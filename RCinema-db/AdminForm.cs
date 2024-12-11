@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -6,6 +7,7 @@ namespace RCinema_db
 {
     public partial class AdminForm : Form
     {
+        SqlConnection conn = null;
         public AdminForm()
         {
             InitializeComponent();
@@ -95,8 +97,24 @@ namespace RCinema_db
 
         private void BtnViewUsers_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Viewing users");
+            try
+            {
+                conn = DatabaseConnection.GetConnection();
+                conn.Open();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+            finally
+            {
+                if (conn.State == System.Data.ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
         }
+
 
         private void BtnViewBookings_Click(object sender, EventArgs e)
         {

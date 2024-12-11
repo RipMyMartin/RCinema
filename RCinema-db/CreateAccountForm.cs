@@ -7,6 +7,7 @@ namespace RCinema_db
 {
     public partial class CreateAccountForm : Form
     {
+        SqlConnection conn = null;
         public CreateAccountForm()
         {
             CustomizeDesign();
@@ -116,9 +117,8 @@ namespace RCinema_db
 
                 try
                 {
-                    using (SqlConnection conn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\opilane\source\repos\RCinema-db\RCinema-db\Database.mdf;Integrated Security=True"))
-                    {
-                        conn.Open();
+                    conn = DatabaseConnection.GetConnection();
+                    conn.Open();
 
                         string query = "INSERT INTO Users (Username, Email, Password, Role) VALUES (@Username, @Email, @Password, @Role)";
                         using (SqlCommand cmd = new SqlCommand(query, conn))
@@ -130,12 +130,18 @@ namespace RCinema_db
 
                             cmd.ExecuteNonQuery();
                         }
-                    }
                     this.Close();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Error saving account: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    if (conn != null && conn.State == System.Data.ConnectionState.Open)
+                    {
+                        conn.Close( );
+                    }
                 }
             };
             this.Controls.Add(createButton);
