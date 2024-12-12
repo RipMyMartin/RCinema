@@ -21,11 +21,11 @@ namespace RCinema_db
 
         private void CustomizeDesign()
         {
-            this.Text = "Pixel Login";
+            this.Text = "Login";
             this.ClientSize = new Size(600, 400);
             this.FormBorderStyle = FormBorderStyle.Sizable;
             this.StartPosition = FormStartPosition.CenterScreen;
-            this.BackColor = Color.Black;
+            this.BackColor = Color.FromArgb(34, 34, 34);
 
             Label titleLabel = new Label
             {
@@ -107,7 +107,7 @@ namespace RCinema_db
                 BackColor = Color.Lime,
                 ForeColor = Color.Black,
                 FlatStyle = FlatStyle.Flat,
-                Location = new Point(50, 300),
+                Location = new Point(200, 320),
                 Width = 200,
                 Height = 50,
                 Anchor = AnchorStyles.Left | AnchorStyles.Bottom
@@ -123,39 +123,39 @@ namespace RCinema_db
                     MessageBox.Show("Please enter your username and password.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-               
+
                 try
                 {
                     conn = DatabaseConnection.GetConnection();
                     conn.Open();
 
-                        string query = "SELECT Role FROM Users WHERE Username = @Username AND Password = @Password";
-                        using (SqlCommand cmd = new SqlCommand(query, conn))
+                    string query = "SELECT Role FROM Users WHERE Username = @Username AND Password = @Password";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Username", username);
+                        cmd.Parameters.AddWithValue("@Password", password);
+
+                        object result = cmd.ExecuteScalar();
+
+                        if (result != null)
                         {
-                            cmd.Parameters.AddWithValue("@Username", username);
-                            cmd.Parameters.AddWithValue("@Password", password);
-
-                            object result = cmd.ExecuteScalar();
-
-                            if (result != null)
+                            string role = result.ToString();
+                            if (role == "Admin")
                             {
-                                string role = result.ToString();
-                                if (role == "Admin")
-                                {
-                                    AdminForm adminForm = new AdminForm();
-                                    adminForm.Show();
-                                }
-                                else
-                                {
-                                    MainForm mainForm = new MainForm();
-                                    mainForm.Show();
-                                }
+                                AdminForm adminForm = new AdminForm();
+                                adminForm.Show();
                             }
                             else
                             {
-                                MessageBox.Show("Invalid username or password.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MainForm mainForm = new MainForm();
+                                mainForm.Show();
                             }
                         }
+                        else
+                        {
+                            MessageBox.Show("Invalid username or password.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -171,7 +171,7 @@ namespace RCinema_db
             };
 
             this.Controls.Add(loginButton);
-
+            /*
             Button cancelButton = new Button
             {
                 Text = "CANCEL",
@@ -190,41 +190,15 @@ namespace RCinema_db
                 this.Close();
             };
             this.Controls.Add(cancelButton);
+            */
 
             Panel gridPanel = new Panel
             {
                 Dock = DockStyle.Fill,
-                BackgroundImage = GeneratePixelGrid(this.ClientSize.Width, this.ClientSize.Height),
                 BackgroundImageLayout = ImageLayout.Tile
             };
             this.Controls.Add(gridPanel);
             gridPanel.SendToBack();
-        }
-
-        private Bitmap GeneratePixelGrid(int width, int height)
-        {
-            Bitmap bmp = new Bitmap(width, height);
-            Random random = new Random();
-            Color[] palette = { Color.Black, Color.Gray, Color.Yellow, Color.Orange };
-
-            using (Graphics g = Graphics.FromImage(bmp))
-            {
-                g.Clear(Color.Black);
-
-                int pixelSize = 10;
-                for (int x = 0; x < width; x += pixelSize)
-                {
-                    for (int y = 0; y < height; y += pixelSize)
-                    {
-                        Color randomColor = palette[random.Next(palette.Length)];
-                        using (Brush brush = new SolidBrush(randomColor))
-                        {
-                            g.FillRectangle(brush, x, y, pixelSize, pixelSize);
-                        }
-                    }
-                }
-            }
-            return bmp;
         }
 
         public void CreateUser(string username, string password, string role)
@@ -234,16 +208,16 @@ namespace RCinema_db
                 conn = DatabaseConnection.GetConnection();
                 conn.Open();
 
-                    string insertQuery = "INSERT INTO Users (Username, Password, Role) VALUES (@Username, @Password, @Role)";
-                    using (SqlCommand cmd = new SqlCommand(insertQuery, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@Username", username);
-                        cmd.Parameters.AddWithValue("@Password", password); 
-                        cmd.Parameters.AddWithValue("@Role", role);
+                string insertQuery = "INSERT INTO Users (Username, Password, Role) VALUES (@Username, @Password, @Role)";
+                using (SqlCommand cmd = new SqlCommand(insertQuery, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Username", username);
+                    cmd.Parameters.AddWithValue("@Password", password);
+                    cmd.Parameters.AddWithValue("@Role", role);
 
-                        cmd.ExecuteNonQuery();
-                        MessageBox.Show($"Пользователь {username} создан!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show($"Пользователь {username} создан!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
             catch (Exception ex)
             {
