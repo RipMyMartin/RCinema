@@ -16,5 +16,10 @@ namespace RCinema_db
         {
             InitializeComponent();
         }
+
+        public void CreateDesign()
+        {
+
+        }
     }
 }

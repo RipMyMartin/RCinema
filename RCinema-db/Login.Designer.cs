@@ -38,6 +38,10 @@
             Name = "Form1";
             Text = "Form1";
             ResumeLayout(false);
+
+            this.WindowState = FormWindowState.Maximized;
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.TopMost = true;
         }
 
         #endregion

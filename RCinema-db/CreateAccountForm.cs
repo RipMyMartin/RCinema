@@ -11,6 +11,7 @@ namespace RCinema_db
         public CreateAccountForm()
         {
             CustomizeDesign();
+            InitializeComponent();
         }
 
         private void CustomizeDesign()

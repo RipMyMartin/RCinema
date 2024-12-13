@@ -100,7 +100,7 @@ namespace RCinema_db
                 Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
             };
             decorativeLine.Click += DecorativeLine_Click;
-            this.Controls.Add(decorativeLine);
+            Controls.Add(decorativeLine);
 
             loginButton = new Button
             {
@@ -116,21 +116,22 @@ namespace RCinema_db
             };
             loginButton.FlatAppearance.BorderSize = 1;
             loginButton.Click += LoginButton_Click;
-            this.Controls.Add(loginButton);
+            Controls.Add(loginButton);
 
             gridPanel = new Panel
             {
                 Dock = DockStyle.Fill,
                 BackgroundImageLayout = ImageLayout.Tile
             };
-            this.Controls.Add(gridPanel);
+            Controls.Add(gridPanel);
             gridPanel.SendToBack();
         }
 
         private void DecorativeLine_Click(object? sender, EventArgs e)
         {
             CreateAccountForm createAccountForm = new CreateAccountForm();
-            createAccountForm.ShowDialog();
+            createAccountForm.Show();
+            Hide();
         }
 
         private void LoginButton_Click(object? sender, EventArgs e)
@@ -162,13 +163,16 @@ namespace RCinema_db
                         string role = result.ToString();
                         if (role == "Admin")
                         {
+
                             AdminForm adminForm = new AdminForm();
                             adminForm.Show();
+                            Hide();
                         }
                         else
                         {
                             MainForm mainForm = new MainForm();
                             mainForm.Show();
+                            Hide();
                         }
                     }
                     else

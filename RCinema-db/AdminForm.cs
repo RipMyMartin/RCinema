@@ -12,6 +12,7 @@ namespace RCinema_db
         private DataGridView infoPanel;
         private SqlDataAdapter dataAdapter;
         private DataTable dataTable;
+        private Button btnViewUsers, btnViewBookings, btnViewMovies, btnSettings;
         public AdminForm()
         {
             InitializeComponent();
@@ -24,7 +25,7 @@ namespace RCinema_db
             this.Size = new Size(800, 640);
             this.BackColor = Color.FromArgb(34, 34, 34);
 
-            Button btnViewUsers = new Button
+             btnViewUsers = new Button
             {
                 Text = "View Users",
                 Font = new Font("Arial", 14),
@@ -38,7 +39,7 @@ namespace RCinema_db
             btnViewUsers.Click += BtnViewUsers_Click;
             this.Controls.Add(btnViewUsers);
 
-            Button btnViewBookings = new Button
+             btnViewBookings = new Button
             {
                 Text = "View Bookings",
                 Font = new Font("Arial", 14),
@@ -52,7 +53,7 @@ namespace RCinema_db
             btnViewBookings.Click += BtnViewBookings_Click;
             this.Controls.Add(btnViewBookings);
 
-            Button btnViewMovies = new Button
+             btnViewMovies = new Button
             {
                 Text = "View Movies",
                 Font = new Font("Arial", 14),
@@ -66,7 +67,7 @@ namespace RCinema_db
             btnViewMovies.Click += BtnViewMovies_Click;
             this.Controls.Add(btnViewMovies);
 
-            Button btnSettings = new Button
+             btnSettings = new Button
             {
                 Size = new Size(120, 70),
                 Location = new Point(650, 15),
@@ -163,8 +164,9 @@ namespace RCinema_db
 
         private void BtnSettings_Click(object sender, EventArgs e)
         {
-           AdminSettingsForm ADS = new AdminSettingsForm();
+            AdminSettingsForm ADS = new AdminSettingsForm();
             ADS.Show();
+            Hide();
         }
     }
 }
