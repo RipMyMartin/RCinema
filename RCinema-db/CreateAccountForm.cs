@@ -17,7 +17,7 @@ namespace RCinema_db
         {
             this.Text = "Create Account";
             this.ClientSize = new Size(600, 400);
-            this.BackColor = Color.Black;
+            this.BackColor = Color.FromArgb(34, 34, 34);
 
             Label titleLabel = new Label
             {

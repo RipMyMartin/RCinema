@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace RCinema_db
 {
-    public partial class flowLayoutPanelMovies : Form
+    public partial class AdminSettingsForm : Form
     {
-        public flowLayoutPanelMovies()
+        public AdminSettingsForm()
         {
             InitializeComponent();
         }

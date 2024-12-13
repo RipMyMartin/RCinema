@@ -163,7 +163,8 @@ namespace RCinema_db
 
         private void BtnSettings_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("POLE");
+           AdminSettingsForm ADS = new AdminSettingsForm();
+            ADS.Show();
         }
     }
 }
