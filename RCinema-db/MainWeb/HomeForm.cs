@@ -24,7 +24,7 @@ namespace RCinema_db.MainWeb
         private void InitializeDesign()
         {
             this.WindowState = FormWindowState.Maximized;
-            this.Text = "MoviePortal";
+            this.Text = "RCinema";
             this.BackColor = Color.White;
 
             navPanel = new Panel
@@ -64,7 +64,6 @@ namespace RCinema_db.MainWeb
 
                 if (item == "Login")
                 {
-                    navButton.Image = Image.FromFile(@"C:\\Users\\ripmy\\source\\repos\\RCinema-db\\RCinema-db\\CinemaIcon\loginIcon.png") ;
                     navButton.ImageAlign = ContentAlignment.MiddleLeft; 
                 }
 
@@ -112,7 +111,7 @@ namespace RCinema_db.MainWeb
         {
             Label homeLabel = new Label
             {
-                Text = "Welcome to MoviePortal\n\nDiscover the latest movies, create your watchlist, and join our community of movie enthusiasts.",
+                Text = "Welcome RCimena",
                 Font = new Font("Arial", 14, FontStyle.Bold),
                 ForeColor = Color.Black,
                 Location = new Point(20, 50),
@@ -129,6 +128,16 @@ namespace RCinema_db.MainWeb
 
             contentPanel.Controls.Add(form);
             form.Show();
+        }
+
+        private Image LoadImage(string filename)
+        {
+            string path = Path.Combine(Application.StartupPath, "CinemaIcon", filename);
+            if (File.Exists(path))
+            {
+                return Image.FromFile(path);
+            }
+            return null;
         }
     }
 }
