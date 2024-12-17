@@ -144,13 +144,11 @@ namespace RCinema_db
                             string role = result.ToString();
                             if (role == "Admin")
                             {
-                                AdminForm adminForm = new AdminForm();
-                                adminForm.Show();
+
                             }
                             else
                             {
-                                HomeForm mainForm = new HomeForm();
-                                mainForm.Show();
+
                             }
                         }
                         else

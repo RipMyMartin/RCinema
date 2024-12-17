@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.IO;
 namespace RCinema_db.MainWeb
 {
     public partial class HomeForm : Form
@@ -47,32 +47,27 @@ namespace RCinema_db.MainWeb
             navPanel.Controls.Add(titleLabel);
             titleLabel.Click += TitleLabel_Click;
 
-            string[] menuItems = { "Login" };
-            int xPosition = 1832;
-
-            foreach (string item in menuItems)
+            Button loginButton = new Button
             {
-                Button navButton = new Button
-                {
-                    Text = item,
-                    ForeColor = Color.Black,
-                    FlatStyle = FlatStyle.Flat,
-                    Location = new Point(xPosition, 10),
-                    Width = 80,
-                    Height = 30
-                };
+                Name = "loginButton",
+                Width = 80,
+                Height = 30,
+                Location = new Point(1832, 10),
+                FlatStyle = FlatStyle.Flat,
+                BackgroundImage = Image.FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "CinemaIcon", "loginIcon.png")),
+                BackgroundImageLayout = ImageLayout.Stretch,
+                Cursor = Cursors.Hand
+            };
 
-                if (item == "Login")
-                {
-                    navButton.ImageAlign = ContentAlignment.MiddleLeft; 
-                }
+            loginButton.FlatAppearance.BorderSize = 0;
+            loginButton.Click += NavButton_Click;
 
-                navButton.FlatAppearance.BorderSize = 0;
-                navButton.Click += NavButton_Click;
+            navPanel.Controls.Add(loginButton);
 
-                navPanel.Controls.Add(navButton);
-                xPosition += 90;
-            }
+            loginButton.FlatAppearance.BorderSize = 0;
+            loginButton.Click += NavButton_Click;
+
+            navPanel.Controls.Add(loginButton);
 
             contentPanel = new Panel
             {
@@ -84,6 +79,7 @@ namespace RCinema_db.MainWeb
             LoadHomePage();
         }
 
+
         private void TitleLabel_Click(object? sender, EventArgs e)
         {
             ShowForm(new HomeForm());
@@ -91,17 +87,15 @@ namespace RCinema_db.MainWeb
 
         private void NavButton_Click(object sender, EventArgs e)
         {
+            contentPanel.Controls.Clear();
+
             if (sender is Button button)
             {
-                contentPanel.Controls.Clear();
-
-                switch (button.Text)
+                switch (button.Name) 
                 {
-                    case "Home":
-                        ShowForm(new HomeForm());
-                        break;
-                    case "Login":
-                        ShowForm(new LoginForm());
+                    case "loginButton":
+                        LoginForm loginForm = new LoginForm(contentPanel);
+                        ShowForm(loginForm);
                         break;
                 }
             }
@@ -128,16 +122,6 @@ namespace RCinema_db.MainWeb
 
             contentPanel.Controls.Add(form);
             form.Show();
-        }
-
-        private Image LoadImage(string filename)
-        {
-            string path = Path.Combine(Application.StartupPath, "CinemaIcon", filename);
-            if (File.Exists(path))
-            {
-                return Image.FromFile(path);
-            }
-            return null;
         }
     }
 }
