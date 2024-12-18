@@ -138,7 +138,6 @@ namespace RCinema_db.MainWeb
                             string role = result.ToString();
                             if (role == "Admin")
                             {
-                            /*
                                 parentContentPanel.Controls.Clear();
                                 AdminForm adminForm = new AdminForm(parentContentPanel);
                                 adminForm.TopLevel = false;
@@ -147,7 +146,6 @@ namespace RCinema_db.MainWeb
 
                                 parentContentPanel.Controls.Add(adminForm);
                                 adminForm.Show();
-                            */
                             }
                             else
                             {
