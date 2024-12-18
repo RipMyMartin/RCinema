@@ -13,11 +13,12 @@ namespace RCinema_db.MainWeb
     public partial class HomeForm : Form
     {
         private Panel navPanel;
-        private Panel contentPanel;
+        private Panel contentPanel, parentContentPanel;
 
-        public HomeForm()
+        public HomeForm(Panel conectPanel)
         {
             InitializeComponent();
+            parentContentPanel = conectPanel;
             InitializeDesign();
         }
 
@@ -82,7 +83,16 @@ namespace RCinema_db.MainWeb
 
         private void TitleLabel_Click(object? sender, EventArgs e)
         {
-            ShowForm(new HomeForm());
+            contentPanel.Controls.Clear();
+
+            HomeForm homeForm = new HomeForm(parentContentPanel); 
+
+            homeForm.TopLevel = false;
+            homeForm.Dock = DockStyle.Fill;
+            homeForm.FormBorderStyle = FormBorderStyle.None;
+
+            contentPanel.Controls.Add(homeForm);
+            homeForm.Show();
         }
 
         private void NavButton_Click(object sender, EventArgs e)

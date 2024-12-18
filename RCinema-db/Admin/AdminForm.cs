@@ -13,6 +13,7 @@ namespace RCinema_db
         private DataGridView infoPanel;
         private SqlDataAdapter dataAdapter;
         private DataTable dataTable;
+        private Panel parentContentPanel;
         public AdminForm()
         {
             InitializeComponent();
@@ -75,7 +76,6 @@ namespace RCinema_db
 
             };
             btnSettings.FlatAppearance.BorderSize = 0;
-            btnSettings.Image = Image.FromFile(@"..\..\..\settings.png");
             btnSettings.Click += BtnSettings_Click;
             this.Controls.Add(btnSettings);
 

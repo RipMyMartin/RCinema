@@ -12,6 +12,7 @@ namespace RCinema_db.MainWeb
     {
         private Panel parentContentPanel;
         private SqlConnection conn = null;
+        private RoundedTextBox usernameBox, passwordBox;
         public LoginForm(Panel conectPanel)
         {
             InitializeComponent();
@@ -57,7 +58,7 @@ namespace RCinema_db.MainWeb
                 Location = new Point((centerPanel.Width - 70) / 2, 130)
             };
 
-            RoundedTextBox usernameBox = new RoundedTextBox
+            usernameBox = new RoundedTextBox
             {
                 PlaceholderText = "Username",
                 Location = new Point(50, 180),
@@ -65,7 +66,7 @@ namespace RCinema_db.MainWeb
                 CornerRadius = 10
             };
 
-            RoundedTextBox passwordBox = new RoundedTextBox
+            passwordBox = new RoundedTextBox
             {
                 PlaceholderText = "Password",
                 Location = new Point(50, 240),
@@ -98,7 +99,6 @@ namespace RCinema_db.MainWeb
             };
             registerLink.Click += CreateAccountLink_Click;
 
-            // Добавляем элементы на панель
             centerPanel.Controls.Add(logo);
             centerPanel.Controls.Add(titleLabel);
             centerPanel.Controls.Add(usernameBox);
@@ -108,11 +108,11 @@ namespace RCinema_db.MainWeb
 
             this.Controls.Add(centerPanel);
         }
-
+        
         private void LoginButton_Click(object sender, EventArgs e)
         {
-                string username = usernameTextBox.Text.Trim();
-                string password = passwordTextBox.Text.Trim();
+                string username = usernameBox.Text.Trim();
+                string password = passwordBox.Text.Trim();
 
                 if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 {
@@ -138,13 +138,27 @@ namespace RCinema_db.MainWeb
                             string role = result.ToString();
                             if (role == "Admin")
                             {
-                                AdminForm adminForm = new AdminForm();
+                            /*
+                                parentContentPanel.Controls.Clear();
+                                AdminForm adminForm = new AdminForm(parentContentPanel);
+                                adminForm.TopLevel = false;
+                                adminForm.Dock = DockStyle.Fill;
+                                adminForm.FormBorderStyle = FormBorderStyle.None;
+
+                                parentContentPanel.Controls.Add(adminForm);
                                 adminForm.Show();
+                            */
                             }
                             else
                             {
-                                HomeForm mainForm = new HomeForm();
-                                mainForm.Show();
+                                parentContentPanel.Controls.Clear();
+                                HomeForm homeForm = new HomeForm(parentContentPanel);
+                                homeForm.TopLevel = false;
+                                homeForm.Dock = DockStyle.Fill;
+                                homeForm.FormBorderStyle = FormBorderStyle.None;
+
+                                parentContentPanel.Controls.Add(homeForm);
+                                homeForm.Show();
                             }
                         }
                         else
@@ -164,7 +178,7 @@ namespace RCinema_db.MainWeb
                         conn.Close();
                     }
                 }
-        }
+            }
 
         private void CreateAccountLink_Click(object sender, EventArgs e)
         {

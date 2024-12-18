@@ -1,8 +1,13 @@
-﻿namespace RCinema_db.MainWeb
+﻿using RCinema_db.Database;
+using System.Data.SqlClient;
+
+namespace RCinema_db.MainWeb
 {
     public partial class RegisterForm : Form
     {
         private Panel parentContentPanel;
+        private SqlConnection conn = null;
+        private RoundedTextBox usernameTextBox, emailTextBox, passwordTextBox;
         public RegisterForm(Panel contentPanel)
         {
             InitializeComponent();
@@ -43,7 +48,7 @@
                 Location = new Point((centerPanel.Width - 100) / 2, 130)
             };
 
-            RoundedTextBox usernameBox = new RoundedTextBox
+            usernameTextBox = new RoundedTextBox
             {
                 PlaceholderText = "Username",
                 Location = new Point(50, 180),
@@ -51,7 +56,7 @@
                 CornerRadius = 10
             };
 
-            RoundedTextBox emailBox = new RoundedTextBox
+            emailTextBox = new RoundedTextBox
             {
                 PlaceholderText = "Email",
                 Location = new Point(50, 240),
@@ -59,7 +64,7 @@
                 CornerRadius = 10
             };
 
-            RoundedTextBox passwordBox = new RoundedTextBox
+            passwordTextBox = new RoundedTextBox
             {
                 PlaceholderText = "Password",
                 Location = new Point(50, 300),
@@ -95,9 +100,9 @@
 
             centerPanel.Controls.Add(logo);
             centerPanel.Controls.Add(titleLabel);
-            centerPanel.Controls.Add(usernameBox);
-            centerPanel.Controls.Add(emailBox);
-            centerPanel.Controls.Add(passwordBox);
+            centerPanel.Controls.Add(usernameTextBox);
+            centerPanel.Controls.Add(emailTextBox);
+            centerPanel.Controls.Add(passwordTextBox);
             centerPanel.Controls.Add(registerButton);
             centerPanel.Controls.Add(registerLink);
             this.Controls.Add(centerPanel);
@@ -105,7 +110,53 @@
 
         private void RegisterButton_Click(object? sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            string username = usernameTextBox.Text.Trim();
+            string email = emailTextBox.Text.Trim();
+            string password = passwordTextBox.Text.Trim();
+
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+            {
+                MessageBox.Show("All fields must be filled.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            try
+            {
+                conn = DatabaseConnection.GetConnection();
+                conn.Open();
+
+                string query = "INSERT INTO Users (Username, Email, Password, Role) VALUES (@Username, @Email, @Password, @Role)";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Username", username);
+                    cmd.Parameters.AddWithValue("@Email", email);
+                    cmd.Parameters.AddWithValue("@Password", password);
+                    cmd.Parameters.AddWithValue("@Role", "User");
+
+                    cmd.ExecuteNonQuery();
+
+                    parentContentPanel.Controls.Clear();
+                    LoginForm loginForm = new LoginForm(parentContentPanel);
+                    loginForm.TopLevel = false;
+                    loginForm.Dock = DockStyle.Fill;
+                    loginForm.FormBorderStyle = FormBorderStyle.None;
+
+                    parentContentPanel.Controls.Add(loginForm);
+                    loginForm.Show();
+                }
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error saving account: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (conn != null && conn.State == System.Data.ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
         }
 
         private void loginLink_Click(object? sender, EventArgs e)
