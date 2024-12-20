@@ -1,22 +1,3 @@
 add user session
 
-├── Database
-│   ├── DatabaseConnection.cs
-│   ├── DatabaseCreateClass.cs
-├── Forms
-├── ├── Admin
-├── ├── ├── AdminForm.cs
-│   ├── MainForm.cs
-│   ├── LoginForm.cs
-│   ├── RegisterForm.cs
-│   ├── AdminForm.cs
-├── Models
-│   ├── User.cs
-│   ├── Movie.cs
-│   ├── Seat.cs
-│   ├── Booking.cs
-├── Services
-│   ├── UserService.cs
-│   ├── MovieService.cs
-│   ├── BookingService.cs
-└── Program.cs
+![pilt](https://github.com/user-attachments/assets/06881904-dad2-4c3e-a0ae-a94397a8c52a)
