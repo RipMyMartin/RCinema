@@ -1,33 +1,36 @@
-/RiplyCinema
+# **RiplyCinema**
+
+```
 ├── /Components
-│   ├── NavBar.cs               # Navigation bar component
-│   ├── MainPanel.cs            # Main panel for dynamic content switching
+│   ├── NavBar.cs
+│   ├── MainPanel.cs
 ├── /Forms
-│   ├── MainForm.cs             # Main application form
-│   ├── LoginForm.cs            # Login form
-│   ├── SignupForm.cs           # Signup form
+│   ├── MainForm.cs
+│   ├── LoginForm.cs
+│   ├── SignupForm.cs
 │   ├── /User
-│   │   ├── UserDashboardForm.cs    # User's main dashboard
-│   │   ├── MovieInfoForm.cs        # Displays detailed movie info
-│   │   ├── TicketPurchaseForm.cs   # Allows ticket purchase
-│   │   └── UserProfileForm.cs      # User's profile settings
+│   │   ├── UserDashboardForm.cs
+│   │   ├── MovieInfoForm.cs
+│   │   ├── TicketPurchaseForm.cs
+│   │   └── UserProfileForm.cs
 │   ├── /Admin
-│   │   ├── AdminDashboardForm.cs   # Admin's main dashboard
-│   │   ├── MovieManagementForm.cs  # Admin panel to manage movies
-│   │   └── UserManagementForm.cs   # Admin panel to manage users
+│   │   ├── AdminDashboardForm.cs
+│   │   ├── MovieManagementForm.cs
+│   │   └── UserManagementForm.cs
 ├── /Models
-│   ├── User.cs                # User model
-│   ├── Movie.cs               # Movie model
-│   ├── Ticket.cs              # Ticket model
+│   ├── User.cs
+│   ├── Movie.cs
+│   ├── Ticket.cs
 ├── /Database
-│   ├── DatabaseInitializer.cs # Handles database creation and seeding
-│   ├── ApplicationContext.cs  # Database context
+│   ├── DatabaseInitializer.cs
+│   ├── ApplicationContext.cs
 ├── /Services
-│   ├── AuthService.cs         # Handles authentication
-│   ├── EmailService.cs        # Sends emails
-│   ├── PdfGenerator.cs        # Generates tickets in PDF
-│   ├── ImageHelper.cs         # Manages image paths and loading
+│   ├── AuthService.cs
+│   ├── EmailService.cs
+│   ├── PdfGenerator.cs
+│   ├── ImageHelper.cs
 ├── /Managers
-│   ├── FormManager.cs         # Handles dynamic form switching
-│   ├── RoleManager.cs         # Manages user roles and permissions
-├── Program.cs                 # Entry point
+│   ├── FormManager.cs
+│   ├── RoleManager.cs
+├── Program.cs
+```
