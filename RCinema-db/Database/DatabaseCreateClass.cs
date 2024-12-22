@@ -15,67 +15,102 @@ namespace RCinema_db.Database
                 conn.Open();
 
                 string createTablesQuery = @"
-                    -- Create 'Users' table if it does not exist
-                    IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Users' AND xtype = 'U')
-                    BEGIN
-                        CREATE TABLE Users (
-                            UserID INT NOT NULL IDENTITY(1,1),  
-                            Username NVARCHAR(20) NOT NULL,
-                            Email NVARCHAR(255) NOT NULL,  
-                            Password NVARCHAR(255) NOT NULL,  
-                            Role NVARCHAR(20) NOT NULL,
-                            CONSTRAINT Users_pk PRIMARY KEY (UserID)
-                        );
-                    END
+                IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'languages')
+                BEGIN
+                    CREATE TABLE languages (
+                        LanguageID INT IDENTITY(1,1) PRIMARY KEY,
+                        Language VARCHAR(20) NOT NULL,
+                        CONSTRAINT UC_Language UNIQUE (Language)
+                    );
+                END;
 
-                    -- Create 'Movies' table if it does not exist
-                    IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Movies' AND xtype = 'U')
-                    BEGIN
-                        CREATE TABLE Movies (
-                            MovieID INT NOT NULL IDENTITY(1,1),  
-                            Title NVARCHAR(50) NOT NULL,
-                            Genre NVARCHAR(50) NOT NULL,
-                            Description NVARCHAR(255) NOT NULL, 
-                            ReleaseDate DATETIME NOT NULL, 
-                            Duration INT NOT NULL,
-                            Rating FLOAT NOT NULL,
-                            CONSTRAINT Movies_pk PRIMARY KEY (MovieID)
-                        );
-                    END
+                IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'movies')
+                BEGIN
+                    CREATE TABLE movies (
+                        MovieID INT IDENTITY(1,1) PRIMARY KEY,
+                        MovieName VARCHAR(100) NOT NULL,
+                        ReleaseDate DATE NOT NULL,
+                        MovieImage VARBINARY(MAX) NOT NULL,
+                        MovieStart TIME NULL,
+                        MovieLength TIME NULL,
+                        MovieYear INT NULL,
+                        LanguageID INT NOT NULL,
+                        PlanID INT NOT NULL,
+                        FOREIGN KEY (LanguageID) REFERENCES languages(LanguageID) ON DELETE CASCADE,
+                        FOREIGN KEY (PlanID) REFERENCES moviesplan(PlanID) ON DELETE CASCADE
+                    );
+                END;
 
-                    -- Create 'Seats' table if it does not exist
-                    IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Seats' AND xtype = 'U')
-                    BEGIN
-                        CREATE TABLE Seats (
-                            SeatID INT NOT NULL IDENTITY(1,1), 
-                            MovieID INT NOT NULL,
-                            Row INT NOT NULL,
-                            SeatNumber INT NOT NULL,
-                            IsBooked INT NOT NULL,
-                            CONSTRAINT Seats_pk PRIMARY KEY (SeatID),
-                            CONSTRAINT Seats_Movies FOREIGN KEY (MovieID) REFERENCES Movies (MovieID)
-                        );
-                    END
+                IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'moviesplan')
+                BEGIN
+                    CREATE TABLE moviesplan (
+                        PlanID INT IDENTITY(1,1) PRIMARY KEY,
+                        PlanRow INT NOT NULL,
+                        PlanSeat INT NOT NULL,
+                        SeatID INT NOT NULL,
+                        FOREIGN KEY (SeatID) REFERENCES seats(SeatID) ON DELETE CASCADE
+                    );
+                END;
 
-                    -- Create 'Booking' table if it does not exist
-                    IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Booking' AND xtype = 'U')
-                    BEGIN
-                        CREATE TABLE Booking (
-                            BookingID INT NOT NULL IDENTITY(1,1), 
-                            UserID INT NOT NULL,
-                            MovieID INT NOT NULL,
-                            SeatNumber INT NOT NULL,  
-                            BookingDate DATETIME NOT NULL,
-                            CONSTRAINT Booking_pk PRIMARY KEY (BookingID),
-                            CONSTRAINT Booking_Movies FOREIGN KEY (MovieID) REFERENCES Movies (MovieID),
-                            CONSTRAINT Booking_Users FOREIGN KEY (UserID) REFERENCES Users (UserID)
-                        );
-                            
-                        -- INSERT INTO Users (Username,Email,Password,Role)
-                        -- VALUES ('admin','admin@example',1234,'Admin')
+                IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'purchases')
+                BEGIN
+                    CREATE TABLE purchases (
+                        PurchaseID INT IDENTITY(1,1) PRIMARY KEY,
+                        UserID INT NOT NULL,
+                        TypeID INT NOT NULL,
+                        MovieID INT NOT NULL,
+                        PurchaseDate DATETIME NOT NULL DEFAULT GETDATE(),
+                        SeatsCount INT NOT NULL,
+                        TotalPrice DECIMAL(10,2) NOT NULL,
+                        FOREIGN KEY (UserID) REFERENCES users(UserID) ON DELETE CASCADE,
+                        FOREIGN KEY (TypeID) REFERENCES tickettype(TypeID) ON DELETE CASCADE,
+                        FOREIGN KEY (MovieID) REFERENCES movies(MovieID) ON DELETE CASCADE
+                    );
+                END;
 
-                    END
-                    ";
+                IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'purchased_seats')
+                BEGIN
+                    CREATE TABLE purchased_seats (
+                        PurchaseID INT NOT NULL,
+                        SeatID INT NOT NULL,
+                        PRIMARY KEY (PurchaseID, SeatID),
+                        FOREIGN KEY (PurchaseID) REFERENCES purchases(PurchaseID) ON DELETE CASCADE,
+                        FOREIGN KEY (SeatID) REFERENCES seats(SeatID) ON DELETE CASCADE
+                    );
+                END;
+
+                IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'seats')
+                BEGIN
+                    CREATE TABLE seats (
+                        SeatID INT IDENTITY(1,1) PRIMARY KEY,
+                        SeatName VARCHAR(50) NULL,
+                        BasePrice DECIMAL(10,2) NOT NULL
+                    );
+                END;
+
+                IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'tickettype')
+                BEGIN
+                    CREATE TABLE tickettype (
+                        TypeID INT IDENTITY(1,1) PRIMARY KEY,
+                        SeatID INT NOT NULL,
+                        Type VARCHAR(50) NOT NULL,
+                        Price DECIMAL(10,2) NOT NULL,
+                        FOREIGN KEY (SeatID) REFERENCES seats(SeatID) ON DELETE CASCADE
+                    );
+                END;
+
+                IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'users')
+                BEGIN
+                    CREATE TABLE users (
+                        UserID INT IDENTITY(1,1) PRIMARY KEY,
+                        Username VARCHAR(20) NOT NULL,
+                        Email VARCHAR(100) NOT NULL,
+                        Password VARCHAR(100) NOT NULL,
+                        Role VARCHAR(10) DEFAULT 'User',
+                        CONSTRAINT UC_Email UNIQUE (Email)
+                    );
+                END;
+            ";
 
                 using (SqlCommand cmd = new SqlCommand(createTablesQuery, conn))
                 {
