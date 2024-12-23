@@ -13,7 +13,7 @@ namespace RCinema_db.FrontEnd.componenet
 {
     public partial class NavController : UserControl
     {
-        private Panel container1;
+        private Panel container1, card;
         private PictureBox login;
         private Label cinemaHeader, schedule, movies, special;
 
@@ -108,6 +108,7 @@ namespace RCinema_db.FrontEnd.componenet
             login.Location = new Point((this.ClientSize.Width - login.Width + 3550) / 3, (this.ClientSize.Height - login.Height - 920) / 2);
             login.Image = DefaultIcons.GetLoginIcon();
             Controls.Add(login);
+
         }
     }
 }

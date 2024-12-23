@@ -9,7 +9,8 @@ namespace RCinema_db.FrontEnd
     {
         public static Region CreateRoundedRegion(int containerWidth, int containerHeight, int radius)
         {
-            var path = new GraphicsPath();
+            GraphicsPath path = new GraphicsPath();
+            path.StartFigure();
             path.AddArc(0, 0, radius, radius, 180, 90);
             path.AddArc(containerWidth - radius, 0, radius, radius, 270, 90);
             path.AddArc(containerWidth - radius, containerHeight - radius, radius, radius, 0, 90);

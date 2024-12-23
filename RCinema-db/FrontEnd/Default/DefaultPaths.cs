@@ -11,5 +11,6 @@ namespace RCinema_db.FrontEnd.Default
     public static class DefaultPaths
     {
         public static string DefaultIconsPath { get; set; } = Path.GetFullPath(Path.Combine(Application.StartupPath, @"..\..\..\FrontEnd\Images\Icons"));
+        public static string DefaultCinemaImagesPath { get; set; } = Path.GetFullPath(Path.Combine(Application.StartupPath, @"..\..\..\FrontEnd\Images\CinemaImage"));
     }
 }
