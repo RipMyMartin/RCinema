@@ -55,5 +55,17 @@ namespace RCinema_db.FrontEnd.Default
             form.WindowState = WindowState;
             form.TopMost = TopMost;
         }
+
+        public void ApplyToControll(UserControl userControl)
+        {
+            if (userControl == null) throw new ArgumentNullException(nameof(userControl));
+
+            userControl.Name = FormName;
+            userControl.ClientSize = ClientSize;
+            userControl.AutoScaleMode = AutoScaleMode;
+            userControl.Text = Text;
+            //userControl.WindowState = WindowState;
+            //userControl.TopMost = TopMost;
+        }
     }
 }
