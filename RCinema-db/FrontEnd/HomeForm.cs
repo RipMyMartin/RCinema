@@ -8,9 +8,9 @@ namespace RCinema_db.FrontEnd
 {
     public partial class HomeForm : Form
     {
-        private Button cinemaButton, schedule, movies, special;
         private Panel container1;
         private PictureBox login;
+        private Label cinemaHeader, schedule, movies, special;
 
         public HomeForm()
         {
@@ -24,24 +24,18 @@ namespace RCinema_db.FrontEnd
             DefaultSize defaultSize = new DefaultSize("Home");
             defaultSize.ApplyToForm(this);
 
-            cinemaButton = new Button()
+            cinemaHeader = new Label()
             {
                 Text = "Cinema",
                 Font = Default.DefaultFont.GetFont(50),
                 ForeColor = DefaultColor.white,
                 FlatStyle = FlatStyle.Flat,
                 BackColor = DefaultColor.darkGray,
-                FlatAppearance =
-                {
-                    BorderSize = 0,
-                    MouseOverBackColor = Color.Transparent,
-                    MouseDownBackColor = Color.Transparent
-                }
             };
-            Size preferredSize = cinemaButton.PreferredSize;
-            cinemaButton.Size = new Size(preferredSize.Width, preferredSize.Height);
-            cinemaButton.Location = new Point((this.ClientSize.Width - cinemaButton.Width) / 2, (this.ClientSize.Height - 1100) / 2);
-            Controls.Add(cinemaButton);
+            Size preferredSize = cinemaHeader.PreferredSize;
+            cinemaHeader.Size = new Size(preferredSize.Width, preferredSize.Height);
+            cinemaHeader.Location = new Point((this.ClientSize.Width - cinemaHeader.Width) / 2, (this.ClientSize.Height - 1100) / 2);
+            Controls.Add(cinemaHeader);
 
 
             container1 = new Panel
@@ -53,60 +47,45 @@ namespace RCinema_db.FrontEnd
             container1.Location = new Point((this.ClientSize.Width - container1.Width) / 2, (this.ClientSize.Height - 845) / 2);
             Controls.Add(container1);
 
-            schedule = new Button
+            schedule = new Label
             {
                 Size = new Size(180, 60),
                 Text = "Schedule",
+                TextAlign = ContentAlignment.MiddleCenter,
                 Font = Default.DefaultFont.GetFont(20),
                 ForeColor = DefaultColor.white,
                 BackColor = DefaultColor.darkGray,
                 FlatStyle = FlatStyle.Flat,
-                FlatAppearance =
-                {
-                    BorderSize = 0,
-                    MouseOverBackColor = Color.Transparent,
-                    MouseDownBackColor = Color.Transparent
-                }
             };
             schedule.Region = DefaultBorderRadius.CreateRoundedRegion(schedule.Width, schedule.Height, radius);
             schedule.Location = new Point((this.ClientSize.Width - schedule.Width + 200) / 3, (this.ClientSize.Height - schedule.Height - 770) / 2);
             Controls.Add(schedule);
             schedule.BringToFront();
 
-            movies = new Button
+            movies = new Label
             {
                 Size = new Size(150, 60),
                 Text = "Movies",
+                TextAlign = ContentAlignment.MiddleCenter,
                 Font = Default.DefaultFont.GetFont(20),
                 ForeColor = DefaultColor.white,
                 BackColor = DefaultColor.darkGray,
                 FlatStyle = FlatStyle.Flat,
-                FlatAppearance =
-                {
-                    BorderSize = 0,
-                    MouseOverBackColor = Color.Transparent,
-                    MouseDownBackColor = Color.Transparent
-                }
             };
             movies.Region = DefaultBorderRadius.CreateRoundedRegion(movies.Width, movies.Height, radius);
             movies.Location = new Point((this.ClientSize.Width - movies.Width + 900) / 3,  (this.ClientSize.Height - movies.Height - 770) / 2);
             Controls.Add(movies);
             movies.BringToFront();
 
-            special = new Button
+            special = new Label
             {
                 Size = new Size(150, 60),
                 Text = "Special",
+                TextAlign = ContentAlignment.MiddleCenter,
                 Font = Default.DefaultFont.GetFont(20),
                 ForeColor = DefaultColor.white,
                 BackColor = DefaultColor.darkGray,
                 FlatStyle = FlatStyle.Flat,
-                FlatAppearance =
-                {
-                    BorderSize = 0,
-                    MouseOverBackColor = Color.Transparent,
-                    MouseDownBackColor = Color.Transparent
-                }
             };
             special.Region = DefaultBorderRadius.CreateRoundedRegion(special.Width, special.Height, radius);
             special.Location = new Point((this.ClientSize.Width - special.Width + 1600) / 3, (this.ClientSize.Height - special.Height - 770) / 2);
