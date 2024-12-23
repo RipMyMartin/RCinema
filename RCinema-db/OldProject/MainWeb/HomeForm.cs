@@ -15,11 +15,9 @@ namespace RCinema_db.MainWeb
         private Panel navPanel;
         private Panel contentPanel, parentContentPanel;
 
-        public HomeForm(Panel conectPanel)
+        public HomeForm()
         {
             InitializeComponent();
-            parentContentPanel = conectPanel;
-            InitializeDesign();
         }
 
         private void InitializeDesign()
@@ -85,7 +83,7 @@ namespace RCinema_db.MainWeb
         {
             contentPanel.Controls.Clear();
 
-            HomeForm homeForm = new HomeForm(parentContentPanel); 
+            HomeForm homeForm = new HomeForm(); 
 
             homeForm.TopLevel = false;
             homeForm.Dock = DockStyle.Fill;

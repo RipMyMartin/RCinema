@@ -15,11 +15,9 @@ namespace RCinema_db
         private DataTable dataTable;
         private Panel parentContentPanel;
 
-        public AdminForm(Panel contentPanel)
+        public AdminForm()
         {
             InitializeComponent();
-            InitializeAdminForm();
-            parentContentPanel = contentPanel;
         }
 
         private void InitializeAdminForm()

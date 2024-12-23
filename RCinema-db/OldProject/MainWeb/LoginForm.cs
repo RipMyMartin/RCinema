@@ -139,7 +139,7 @@ namespace RCinema_db.MainWeb
                             if (role == "Admin")
                             {
                                 parentContentPanel.Controls.Clear();
-                                AdminForm adminForm = new AdminForm(parentContentPanel);
+                                AdminForm adminForm = new AdminForm();
                                 adminForm.TopLevel = false;
                                 adminForm.Dock = DockStyle.Fill;
                                 adminForm.FormBorderStyle = FormBorderStyle.None;
@@ -150,7 +150,7 @@ namespace RCinema_db.MainWeb
                             else
                             {
                                 parentContentPanel.Controls.Clear();
-                                HomeForm homeForm = new HomeForm(parentContentPanel);
+                                HomeForm homeForm = new HomeForm();
                                 homeForm.TopLevel = false;
                                 homeForm.Dock = DockStyle.Fill;
                                 homeForm.FormBorderStyle = FormBorderStyle.None;

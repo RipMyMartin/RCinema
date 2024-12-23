@@ -12,7 +12,7 @@ namespace RCinema_db
         {
             ApplicationConfiguration.Initialize();
             Panel parentContentPanel = new Panel();
-            Application.Run(new HomeForm(parentContentPanel));  
+            Application.Run(new FrontEnd.HomeForm());  
         }
     }
 }
