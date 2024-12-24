@@ -12,23 +12,33 @@ namespace RCinema_db.FrontEnd
         private Panel container1;
         private PictureBox login, cinemaIcon;
         private Panel card;
-        private Label cinemaName;
+        private Label cinemaName, timeLangBack, timeLangName;
 
         public HomeForm()
         {
             Design();
-            Components();
+            NavComponent();
 
         }
 
-        private void Components()
+        private void NavComponent()
         {
             var navController = new NavController
             {
-                Dock = DockStyle.Top
+                Location = new Point(0, 0),
+                Size = new Size(this.ClientSize.Width, 220) 
             };
             this.Controls.Add(navController);
+
+            var cardController = new CardController
+            {
+                Location = new Point(0, navController.Bottom - 200), 
+            };
+            this.Controls.Add(cardController);
         }
+
+
+
         private void Design()
         {
             DefaultSize defaultSize = new DefaultSize("Home");
@@ -36,36 +46,22 @@ namespace RCinema_db.FrontEnd
 
             int radius = 20;
 
-            card = new Panel()
+            timeLangBack = new Label()
             {
-                Size = new Size(500, 350),
-                BackColor = DefaultColor.lightGray,
+                Size = new Size(150, 50),
+                BackColor = DefaultColor.darkGray,
             };
-            card.Region = DefaultBorderRadius.CreateRoundedRegion(card.Width, card.Height, radius);
-            card.Location = new Point((this.ClientSize.Width - card.Width) / 4, (this.ClientSize.Height - 600) / 2);
-            Controls.Add(card);
+            timeLangBack.Region = DefaultBorderRadius.CreateRoundedRegion(timeLangBack.Width, timeLangBack.Height, radius);
+            timeLangBack.Location = new Point((this.timeLangBack.Width - timeLangBack.Width + 625) / 2, (this.timeLangBack.Height - timeLangBack.Height + 280) / 2);
+            Controls.Add(timeLangBack);
 
-            cinemaIcon = new PictureBox()
+            timeLangName = new Label()
             {
-                Size = new Size(250, 335),
-                SizeMode = PictureBoxSizeMode.StretchImage,
-            };
-            cinemaIcon.Image = DefaultImage.GetCinemaImage_NewLife();
-            cinemaIcon.Region = DefaultBorderRadius.CreateRoundedRegion(cinemaIcon.Width, cinemaIcon.Height, radius);
-            cinemaIcon.Location = new Point((card.Width - cinemaIcon.Width - 230) / 2, (card.Height - cinemaIcon.Height) / 2);
-            card.Controls.Add(cinemaIcon);
-
-            cinemaName = new Label()
-            {
-                Text = "New Life",
-                Font = Default.DefaultFont.GetFont(20),
+                Text = "11:00",
+                Font = Default.DefaultFont.GetFont(20), 
                 ForeColor = DefaultColor.white,
-                AutoSize = true,
+
             };
-            cinemaName.Location = new Point((this.cinemaName.Width - cinemaName.Width + 625) / 2, (this.cinemaName.Height - cinemaName.Height + 30) / 2);
-            card.Controls.Add(cinemaName);
-
-
 
             /*
             card = new Panel()

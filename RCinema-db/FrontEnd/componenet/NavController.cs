@@ -8,21 +8,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.AxHost;
 
 namespace RCinema_db.FrontEnd.componenet
 {
     public partial class NavController : UserControl
     {
-        private Panel container1, card;
+        private Panel container1;
         private PictureBox login;
         private Label cinemaHeader, schedule, movies, special;
 
         public NavController()
         {
             InitializeComponent();
-            ControllerNav();
+            CompoenentNav();
         }
-        public void ControllerNav()
+        public void CompoenentNav()
         {
             int radius = 20;
             BackColor = DefaultColor.darkGray;
@@ -42,19 +43,25 @@ namespace RCinema_db.FrontEnd.componenet
             cinemaHeader.Location = new Point((this.ClientSize.Width - cinemaHeader.Width) / 2, (this.ClientSize.Height - 1100) / 2);
             Controls.Add(cinemaHeader);
 
+            int buttonWidth = 150;
+            int buttonHeight = 60;
+            int spacing = 20; 
+            int totalWidth = 3 * buttonWidth + 2 * spacing;
+            int startX = (this.ClientSize.Width - totalWidth) / 2; //Change to 4 if session admin
+            int yPosition = (this.ClientSize.Height - 820) / 2; 
 
             container1 = new Panel
             {
-                Size = new Size(700, 80),
+                Size = new Size(totalWidth + 2 * spacing, buttonHeight + 40), 
                 BackColor = DefaultColor.lightGray
             };
             container1.Region = DefaultBorderRadius.CreateRoundedRegion(container1.Width, container1.Height, radius);
-            container1.Location = new Point((this.ClientSize.Width - container1.Width) / 2, (this.ClientSize.Height - 845) / 2);
+            container1.Location = new Point((this.ClientSize.Width - container1.Width) / 2,/*Change to 4 if session admin*/ yPosition - 20);
             Controls.Add(container1);
 
             schedule = new Label
             {
-                Size = new Size(180, 60),
+                Size = new Size(buttonWidth, buttonHeight),
                 Text = "Schedule",
                 TextAlign = ContentAlignment.MiddleCenter,
                 Font = Default.DefaultFont.GetFont(20),
@@ -63,13 +70,13 @@ namespace RCinema_db.FrontEnd.componenet
                 FlatStyle = FlatStyle.Flat,
             };
             schedule.Region = DefaultBorderRadius.CreateRoundedRegion(schedule.Width, schedule.Height, radius);
-            schedule.Location = new Point((this.ClientSize.Width - schedule.Width + 200) / 3, (this.ClientSize.Height - schedule.Height - 770) / 2);
+            schedule.Location = new Point(startX, yPosition); 
             Controls.Add(schedule);
             schedule.BringToFront();
 
             movies = new Label
             {
-                Size = new Size(150, 60),
+                Size = new Size(buttonWidth, buttonHeight),
                 Text = "Movies",
                 TextAlign = ContentAlignment.MiddleCenter,
                 Font = Default.DefaultFont.GetFont(20),
@@ -78,13 +85,13 @@ namespace RCinema_db.FrontEnd.componenet
                 FlatStyle = FlatStyle.Flat,
             };
             movies.Region = DefaultBorderRadius.CreateRoundedRegion(movies.Width, movies.Height, radius);
-            movies.Location = new Point((this.ClientSize.Width - movies.Width + 900) / 3, (this.ClientSize.Height - movies.Height - 770) / 2);
+            movies.Location = new Point(startX + buttonWidth + spacing, yPosition);
             Controls.Add(movies);
             movies.BringToFront();
 
             special = new Label
             {
-                Size = new Size(150, 60),
+                Size = new Size(buttonWidth, buttonHeight),
                 Text = "Special",
                 TextAlign = ContentAlignment.MiddleCenter,
                 Font = Default.DefaultFont.GetFont(20),
@@ -93,21 +100,19 @@ namespace RCinema_db.FrontEnd.componenet
                 FlatStyle = FlatStyle.Flat,
             };
             special.Region = DefaultBorderRadius.CreateRoundedRegion(special.Width, special.Height, radius);
-            special.Location = new Point((this.ClientSize.Width - special.Width + 1600) / 3, (this.ClientSize.Height - special.Height - 770) / 2);
+            special.Location = new Point(startX + 2 * (buttonWidth + spacing), yPosition); 
             Controls.Add(special);
             special.BringToFront();
 
             login = new PictureBox
             {
                 Size = new Size(130, 130),
-                Text = "Special",
-                Font = Default.DefaultFont.GetFont(20),
                 SizeMode = PictureBoxSizeMode.Zoom,
-
             };
-            login.Location = new Point((this.ClientSize.Width - login.Width + 3550) / 3, (this.ClientSize.Height - login.Height - 920) / 2);
+            login.Location = new Point((this.ClientSize.Width - login.Width + 3550) / 3, (this.ClientSize.Height - login.Height - 920) / 2); 
             login.Image = DefaultIcons.GetLoginIcon();
             Controls.Add(login);
+
 
         }
     }
