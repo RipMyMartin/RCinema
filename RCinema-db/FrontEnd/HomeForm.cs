@@ -44,25 +44,6 @@ namespace RCinema_db.FrontEnd
             DefaultSize defaultSize = new DefaultSize("Home");
             defaultSize.ApplyToForm(this);
 
-            int radius = 20;
-
-            timeLangBack = new Label()
-            {
-                Size = new Size(150, 50),
-                BackColor = DefaultColor.darkGray,
-            };
-            timeLangBack.Region = DefaultBorderRadius.CreateRoundedRegion(timeLangBack.Width, timeLangBack.Height, radius);
-            timeLangBack.Location = new Point((this.timeLangBack.Width - timeLangBack.Width + 625) / 2, (this.timeLangBack.Height - timeLangBack.Height + 280) / 2);
-            Controls.Add(timeLangBack);
-
-            timeLangName = new Label()
-            {
-                Text = "11:00",
-                Font = Default.DefaultFont.GetFont(20), 
-                ForeColor = DefaultColor.white,
-
-            };
-
             /*
             card = new Panel()
             {

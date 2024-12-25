@@ -13,9 +13,9 @@ namespace RCinema_db.FrontEnd.componenet
 {
     public partial class CardController : UserControl
     {
-        private PictureBox cinemaIcon;
+        private PictureBox cinemaIcon, langPicture;
         private Panel card;
-        private Label cinemaName, timeLangBack, timeLangName;
+        private Label cinemaName, timeLangBack, timeLangName, langBack, langName;
         public CardController()
         {
             InitializeComponent();
@@ -58,6 +58,59 @@ namespace RCinema_db.FrontEnd.componenet
             };
             cinemaName.Location = new Point((this.cinemaName.Width - cinemaName.Width + 625) / 2, (this.cinemaName.Height - cinemaName.Height + 30) / 2);
             card.Controls.Add(cinemaName);
+
+
+
+            timeLangBack = new Label()
+            {
+                Size = new Size(190, 50),
+                BackColor = DefaultColor.darkGray,
+            };
+            timeLangBack.Region = DefaultBorderRadius.CreateRoundedRegion(timeLangBack.Width, timeLangBack.Height, radius);
+            timeLangBack.Location = new Point((this.timeLangBack.Width - timeLangBack.Width + 580) / 2, (this.timeLangBack.Height - timeLangBack.Height + 280) / 2);
+            card.Controls.Add(timeLangBack);
+
+            timeLangName = new Label()
+            {
+                Text = "11:00",
+                Font = Default.DefaultFont.GetFont(20),
+                ForeColor = DefaultColor.white,
+                AutoSize = true
+
+            };
+            timeLangBack.Controls.Add(timeLangName);
+
+            langBack = new Label()
+            {
+                Size = new Size(95, 40),
+                BackColor = DefaultColor.lightGray,
+            };
+            langBack.Region = DefaultBorderRadius.CreateRoundedRegion(langBack.Width, langBack.Height, radius);
+
+            langBack.Location = new Point(timeLangName.Location.X + timeLangName.Width, (timeLangBack.Height - langBack.Height) / 2 );
+            timeLangBack.Controls.Add(langBack);
+
+            langPicture = new PictureBox()
+            {
+                Size = new Size(30, 30), 
+                SizeMode = PictureBoxSizeMode.StretchImage,
+                Image = DefaultIcons.GetWifiIcon()
+            };
+
+            langPicture.Location = new Point((langBack.Width - langPicture.Width - 60) / 2,5 );
+            langBack.Controls.Add(langPicture);
+
+            langName = new Label()
+            {
+                Text = "EE", 
+                Font = Default.DefaultFont.GetFont(20),
+                ForeColor = DefaultColor.white,
+                AutoSize=true
+            };
+            langName.Location = new Point((langName.Width - langName.Width + 60) / 2, (langName.Height - langName.Height - 3));
+            langBack.Controls.Add(langName);
+
+
         }
     }
 }
