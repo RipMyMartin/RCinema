@@ -9,51 +9,28 @@ namespace RCinema_db.FrontEnd
 {
     public partial class HomeForm : Form
     {
-        private Panel container1;
-        private PictureBox login, cinemaIcon;
-        private Panel card;
-        private Label cinemaName, timeLangBack, timeLangName;
-
         public HomeForm()
         {
-            Design();
-            NavComponent();
-
+            Component();
         }
 
-        private void NavComponent()
+        private void Component()
         {
-            var navController = new NavController
-            {
-                Location = new Point(0, 0),
-                Size = new Size(this.ClientSize.Width, 220) 
-            };
-            this.Controls.Add(navController);
-
-            var cardController = new CardController
-            {
-                Location = new Point(0, navController.Bottom - 200), 
-            };
-            this.Controls.Add(cardController);
-        }
-
-
-
-        private void Design()
-        {
-            DefaultSize defaultSize = new DefaultSize("Home");
+            DefaultSize defaultSize = new ("Home");
             defaultSize.ApplyToForm(this);
 
-            /*
-            card = new Panel()
+            NavController navController = new ()
             {
-                Size = new Size(500, 350),
-                BackColor = DefaultColor.lightGray,
+                Location = new Point(0, 0),
+                Size = new Size(ClientSize.Width, 220)
             };
-            card.Region = DefaultBorderRadius.CreateRoundedRegion(card.Width, card.Height, radius);
-            card.Location = new Point((this.ClientSize.Width - card.Width + 700) / 2, (this.ClientSize.Height - 600) / 2);
-            Controls.Add(card);
-            */
+            Controls.Add(navController);
+
+            CardController cardController = new ()
+            {
+                Location = new Point(0, navController.Bottom - 200),
+            };
+            Controls.Add(cardController);
         }
     }
 }

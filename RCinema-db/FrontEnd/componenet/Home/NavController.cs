@@ -17,7 +17,7 @@ namespace RCinema_db.FrontEnd.componenet
         private Panel container1;
         private PictureBox login;
         private Label cinemaHeader, schedule, movies, special;
-
+        private Panel paramConectPanel;
         public NavController()
         {
             InitializeComponent();
@@ -73,6 +73,7 @@ namespace RCinema_db.FrontEnd.componenet
             schedule.Location = new Point(startX, yPosition); 
             Controls.Add(schedule);
             schedule.BringToFront();
+            schedule.Click += Schedule_Click;
 
             movies = new Label
             {
@@ -114,6 +115,12 @@ namespace RCinema_db.FrontEnd.componenet
             Controls.Add(login);
 
 
+        }
+
+        private void Schedule_Click(object? sender, EventArgs e)
+        {
+            var shedule = new Schedule();
+            shedule.Show();
         }
     }
 }
