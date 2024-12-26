@@ -1,6 +1,6 @@
 ﻿namespace RCinema_db.FrontEnd
 {
-    partial class Schedule
+    partial class ScheduleForm
     {
         /// <summary>
         /// Required designer variable.

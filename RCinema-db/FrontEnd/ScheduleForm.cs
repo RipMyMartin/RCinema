@@ -11,11 +11,12 @@ using System.Windows.Forms;
 
 namespace RCinema_db.FrontEnd
 {
-    public partial class Schedule : Form
+    public partial class ScheduleForm : Form
     {
-        public Schedule()
+        public ScheduleForm()
         {
             Compoenent();
+            BackColor = Color.Red;
         }
         private void Compoenent()
         {

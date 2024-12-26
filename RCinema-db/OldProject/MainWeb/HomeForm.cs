@@ -18,6 +18,7 @@ namespace RCinema_db.MainWeb
         public HomeForm()
         {
             InitializeComponent();
+            InitializeDesign();
         }
 
         private void InitializeDesign()

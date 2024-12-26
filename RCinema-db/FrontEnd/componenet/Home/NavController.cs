@@ -1,4 +1,6 @@
-﻿using RCinema_db.FrontEnd.Default;
+﻿using RCinema_db.FrontEnd.Controll;
+using RCinema_db.FrontEnd.Default;
+using RCinema_db.MainWeb;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,7 +19,9 @@ namespace RCinema_db.FrontEnd.componenet
         private Panel container1;
         private PictureBox login;
         private Label cinemaHeader, schedule, movies, special;
-        private Panel paramConectPanel;
+
+        public delegate void FormSwitchHandler(Form targetForm);
+        public event FormSwitchHandler? OnFormSwitch;
         public NavController()
         {
             InitializeComponent();
@@ -42,6 +46,7 @@ namespace RCinema_db.FrontEnd.componenet
             cinemaHeader.Size = new Size(preferredSize.Width, preferredSize.Height);
             cinemaHeader.Location = new Point((this.ClientSize.Width - cinemaHeader.Width) / 2, (this.ClientSize.Height - 1100) / 2);
             Controls.Add(cinemaHeader);
+            cinemaHeader.Click += (s, e) => OnFormSwitch?.Invoke(new FrontEnd.CinemaHeaderForm());
 
             int buttonWidth = 150;
             int buttonHeight = 60;
@@ -73,7 +78,7 @@ namespace RCinema_db.FrontEnd.componenet
             schedule.Location = new Point(startX, yPosition); 
             Controls.Add(schedule);
             schedule.BringToFront();
-            schedule.Click += Schedule_Click;
+            schedule.Click += (s, e) => OnFormSwitch?.Invoke(new FrontEnd.ScheduleForm());
 
             movies = new Label
             {
@@ -88,6 +93,7 @@ namespace RCinema_db.FrontEnd.componenet
             movies.Region = DefaultBorderRadius.CreateRoundedRegion(movies.Width, movies.Height, radius);
             movies.Location = new Point(startX + buttonWidth + spacing, yPosition);
             Controls.Add(movies);
+            movies.Click += (s, e) => OnFormSwitch?.Invoke(new FrontEnd.MoviesForm());
             movies.BringToFront();
 
             special = new Label
@@ -104,6 +110,7 @@ namespace RCinema_db.FrontEnd.componenet
             special.Location = new Point(startX + 2 * (buttonWidth + spacing), yPosition); 
             Controls.Add(special);
             special.BringToFront();
+            special.Click += (s, e) => OnFormSwitch?.Invoke(new FrontEnd.SpecialForm());
 
             login = new PictureBox
             {
@@ -115,12 +122,6 @@ namespace RCinema_db.FrontEnd.componenet
             Controls.Add(login);
 
 
-        }
-
-        private void Schedule_Click(object? sender, EventArgs e)
-        {
-            var shedule = new Schedule();
-            shedule.Show();
         }
     }
 }
