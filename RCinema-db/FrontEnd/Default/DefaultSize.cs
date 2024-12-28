@@ -22,10 +22,9 @@ namespace RCinema_db.FrontEnd.Default
             }
 
             FormName = formName;
-            ClientSize = new Size(1920, 1080);
+            ClientSize = new Size(1080, 720);
             AutoScaleMode = AutoScaleMode.Font;
             Text = formName; 
-            WindowState = FormWindowState.Maximized;
             TopMost = true;
         }
 
