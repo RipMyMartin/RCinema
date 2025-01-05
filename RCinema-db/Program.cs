@@ -1,5 +1,3 @@
-using RCinema_db.MainWeb;
-
 namespace RCinema_db
 {
     internal static class Program
@@ -13,7 +11,7 @@ namespace RCinema_db
         {
             ApplicationConfiguration.Initialize();
             Panel parentContentPanel = new Panel();
-            Application.Run(new FrontEnd.HomeForm());  
+            Application.Run(new HomeForm());  
         }
     }
 }

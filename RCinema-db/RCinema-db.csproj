@@ -37,12 +37,6 @@
       <Private>True</Private>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="BackEnd\" />
-    <Folder Include="FrontEnd\componenet\Schedule\" />
-    <Folder Include="FrontEnd\componenet\Movies\" />
-    <Folder Include="FrontEnd\componenet\Special\" />
-  </ItemGroup>
   <PropertyGroup>
     <SsdtUnitTestVersion>3.1</SsdtUnitTestVersion>
   </PropertyGroup>
