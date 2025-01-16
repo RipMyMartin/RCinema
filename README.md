@@ -9,3 +9,4 @@ https://www.figma.com/design/qsGMT2k4RNYtMO5qpgydZ4/RiplyCimana?node-id=0-1&p=f&
 
 https://github.com/user-attachments/assets/326e3b04-5c07-4d8a-a9e7-2001d7f82a38
 
+https://github.com/uts-dotnet/movie-ticket-app
