@@ -9,7 +9,7 @@ namespace RCinema_db.Database
 {
     public static class DatabaseConnection
     {
-        public static string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\ripmy\source\repos\RCinema-db\RCinema-db\Database\Database.mdf;Integrated Security=True";
+        public static string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\opilane\source\repos\RCinema\RCinema-db\Database\Database.mdf;Integrated Security=True";
 
         public static SqlConnection GetConnection()
         {

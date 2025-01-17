@@ -15,7 +15,6 @@ namespace RCinema_db
     
     public partial class AdminForm : Form
     {
-        private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\ripmy\source\repos\RCinema-db\RCinema-db\Database\Database.mdf;Integrated Security=True";
         public AdminForm()
         {
             InitializeComponent();
@@ -24,7 +23,7 @@ namespace RCinema_db
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = DatabaseConnection.GetConnection())
             {
                 try
                 {
@@ -89,7 +88,7 @@ namespace RCinema_db
 
             string tableName = cbTables.SelectedItem.ToString();
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = DatabaseConnection.GetConnection())
             {
                 AddRecordForm addForm = new AddRecordForm(tableName, connection);
                 addForm.ShowDialog();
@@ -118,7 +117,7 @@ namespace RCinema_db
             string tableName = cbTables.SelectedItem.ToString();
             int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = DatabaseConnection.GetConnection())
             {
                 try
                 {

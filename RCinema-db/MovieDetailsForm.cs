@@ -1,11 +1,8 @@
-﻿using System;
+﻿using RCinema_db.FrontEnd.Default;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace RCinema_db
@@ -22,48 +19,55 @@ namespace RCinema_db
 
             selectedSeats = new List<(int, int)>();
 
-            // Заголовок фильма
+            // Заголовок фильма с улучшенным стилем
             Label lblMovieName = new Label
             {
                 Text = $"Название: {movieName}",
                 Left = 10,
                 Top = 10,
-                Width = 200
+                Width = 400,
+                Font = new Font("Arial", 16, FontStyle.Bold),
+                ForeColor = Color.White
             };
             this.Controls.Add(lblMovieName);
 
-            // Изображение фильма
+            // Изображение фильма с улучшениями
             PictureBox pictureBox = new PictureBox
             {
-                Width = 100,
-                Height = 100,
+                Width = 120,
+                Height = 120,
                 Left = 220,
                 Top = 10,
-                SizeMode = PictureBoxSizeMode.StretchImage
+                SizeMode = PictureBoxSizeMode.StretchImage,
+                Image = DefaultImage.GetCinemaImage_NewLife() // Преобразование байтового массива в изображение
             };
             this.Controls.Add(pictureBox);
 
-            // Время начала
+            // Время начала с улучшением шрифта и цвета
             Label lblTime = new Label
             {
                 Text = $"Время: {(movieStart.HasValue ? movieStart.Value.ToString(@"hh\:mm") : "N/A")}",
                 Left = 10,
                 Top = 120,
-                Width = 200
+                Width = 200,
+                Font = new Font("Arial", 12),
+                ForeColor = Color.White
             };
             this.Controls.Add(lblTime);
 
-            // Язык
+            // Язык с улучшением шрифта и цвета
             Label lblLanguage = new Label
             {
                 Text = $"Язык: {language}",
                 Left = 10,
                 Top = 150,
-                Width = 200
+                Width = 200,
+                Font = new Font("Arial", 12),
+                ForeColor = Color.White
             };
             this.Controls.Add(lblLanguage);
 
-            // Создание сетки мест (8x5)
+            // Создание сетки мест с улучшениями
             seats = new Button[5, 8];
             for (int row = 0; row < 5; row++)
             {
@@ -71,12 +75,15 @@ namespace RCinema_db
                 {
                     Button seatButton = new Button
                     {
-                        Width = 40,
-                        Height = 40,
-                        Left = 10 + col * 50,
-                        Top = 200 + row * 50,
+                        Width = 50,
+                        Height = 50,
+                        Left = 10 + col * 60,
+                        Top = 200 + row * 60,
                         Text = $"{row + 1}-{col + 1}",
-                        BackColor = Color.Green // Свободное место по умолчанию
+                        BackColor = Color.Green,
+                        FlatStyle = FlatStyle.Flat,
+                        Font = new Font("Arial", 10, FontStyle.Bold),
+                        ForeColor = Color.White
                     };
                     seatButton.Click += SeatButton_Click;
                     seats[row, col] = seatButton;
@@ -84,26 +91,36 @@ namespace RCinema_db
                 }
             }
 
-            // Место для подсчета выбранных мест и цены
+            // Место для подсчета выбранных мест и цены с улучшением
             Label lblSelectedSeats = new Label
             {
                 Text = "Выбранные места:",
                 Left = 10,
                 Top = 450,
-                Width = 300
+                Width = 400,
+                Font = new Font("Arial", 12),
+                ForeColor = Color.White
             };
             this.Controls.Add(lblSelectedSeats);
 
-            // Кнопка отправки
+            // Добавление кнопки с улучшением стиля
             Button btnSubmit = new Button
             {
-                Text = "Submit",
+                Text = "Забронировать",
                 Left = 10,
                 Top = 480,
-                Width = 100
+                Width = 150,
+                Height = 40,
+                Font = new Font("Arial", 12, FontStyle.Bold),
+                BackColor = Color.DodgerBlue,
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat
             };
             btnSubmit.Click += BtnSubmit_Click;
             this.Controls.Add(btnSubmit);
+
+            // Изменение фона формы
+            this.BackColor = Color.FromArgb(40, 40, 40);
         }
 
         private void SeatButton_Click(object sender, EventArgs e)
@@ -143,7 +160,7 @@ namespace RCinema_db
             Label lblSelectedSeats = this.Controls.OfType<Label>().FirstOrDefault(lbl => lbl.Text.StartsWith("Выбранные места"));
             lblSelectedSeats.Text = selectedSeatsText;
 
-            Label lblPrice = this.Controls.OfType<Label>().FirstOrDefault(lbl => lbl.Text.StartsWith("Цена"));
+            Label lblPrice = this.Controls.OfType<Label>().FirstOrDefault(lbl => lbl.Text.StartsWith("Общая цена"));
             if (lblPrice == null)
             {
                 lblPrice = new Label
@@ -151,7 +168,9 @@ namespace RCinema_db
                     Text = $"Общая цена: {totalPrice:C}",
                     Left = 10,
                     Top = 470,
-                    Width = 200
+                    Width = 200,
+                    Font = new Font("Arial", 12, FontStyle.Bold),
+                    ForeColor = Color.Yellow
                 };
                 this.Controls.Add(lblPrice);
             }

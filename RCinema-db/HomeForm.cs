@@ -16,7 +16,6 @@ namespace RCinema_db
 {
     public partial class HomeForm : Form
     {
-        public static string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\ripmy\source\repos\RCinema-db\RCinema-db\Database\Database.mdf;Integrated Security=True";
         public HomeForm()
         {
             InitializeComponent();
@@ -59,7 +58,7 @@ namespace RCinema_db
             FROM movies m
             INNER JOIN languages l ON m.LanguageID = l.LanguageID";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = DatabaseConnection.GetConnection())
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 connection.Open();
