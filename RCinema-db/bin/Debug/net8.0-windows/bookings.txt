@@ -1,0 +1,1 @@
+bookingID,movieID,session,numberOfTickets,seatsBooked,subtotal,ticketType,userID

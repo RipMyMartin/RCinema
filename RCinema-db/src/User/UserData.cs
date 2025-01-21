@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MovieTicketApp.src.Managers;
 using RCinema_db.src.Managers;
 
 namespace RCinema_db.src.User

@@ -5,9 +5,11 @@ using System.Net;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using RCinema_db.src.Movie;
+using RCinema_db.src.MovieSession;
 using RCinema_db.src.User;
 
-namespace RCinema_db.src.Managers
+namespace MovieTicketApp.src.Managers
 {
     internal class GlobalData
     {
@@ -26,6 +28,5 @@ namespace RCinema_db.src.Managers
             Sessions.Clear();
             UserData.Clear();
         }
-
     }
 }

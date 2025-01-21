@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using RCinema_db.src.Movie;
+using RCinema_db.src.MovieSession;
 using RCinema_db.src.User;
 
-namespace RCinema_db.src.Managers
+namespace MovieTicketApp.src.Managers
 {
     public class FileManager
     {

@@ -1,20 +1,17 @@
-﻿using Microsoft.VisualBasic.ApplicationServices;
+﻿using RCinema_db.Account;
+using RCinema_db.Admin;
+using RCinema_db.src.Managers;
+using RCinema_db.User;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace RCinema_db.Account
 {
     public partial class Login : Form
     {
-        string _loginFile = ".\\login-credentials.txt";
+        private string connectionString = Database.DatabaseConnection.connectionString;
 
         public Login()
         {
@@ -31,9 +28,9 @@ namespace RCinema_db.Account
             string enteredUsername = txt_Username.Text.Trim();
             string enteredPassword = txt_Password.Text.Trim();
 
-            if (ValidateCredentials(enteredUsername, enteredPassword))
+            if (ValidateCredentials(enteredUsername, enteredPassword, out string role))
             {
-                if (enteredUsername == "admin")
+                if (role == "Admin")
                 {
                     AdminView adminView = new AdminView();
                     adminView.Show();
@@ -52,40 +49,47 @@ namespace RCinema_db.Account
             }
         }
 
-        private bool ValidateCredentials(string email, string password)
+        private bool ValidateCredentials(string username, string password, out string role)
         {
+            role = null;
             try
             {
-                string[] lines = File.ReadAllLines(_loginFile);
-
-                for (int i = 1; i < lines.Length; i++) // Start at index 1 to skip the header
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    string[] data = lines[i].Split(",");
+                    connection.Open();
 
-                    int storedId = Convert.ToInt32(data[0]);
-                    string storedUsername = data[1];
-                    string storedPassword = data[2];
-                    string storedFirstName = data[3];
-                    string storedLastName = data[4];
-
-                    if (storedUsername == email && storedPassword == password)
+                    string query = "SELECT UserID, FirstName, LastName, UserName, Role FROM Account WHERE UserName = @UserName AND Password = @Password";
+                    using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        User user = new User(storedId, storedFirstName, storedLastName, storedUsername);
-                        CurrentUserManager.Instance.SetCurrentUser(user);
-                        return true;
+                        command.Parameters.AddWithValue("@UserName", username);
+                        command.Parameters.AddWithValue("@Password", password);
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                int userId = reader.GetInt32(0);
+                                string firstName = reader.GetString(1);
+                                string lastName = reader.GetString(2);
+                                string userName = reader.GetString(3);
+                                role = reader.GetString(4);
+
+                                src.User.User user = new src.User.User(userId, firstName, lastName, userName);
+                                CurrentUserManager.Instance.SetCurrentUser(user);
+
+                                return true;
+                            }
+                        }
                     }
                 }
-
-                return false;
             }
-            catch (FileNotFoundException e)
+            catch (Exception ex)
             {
-                Debug.WriteLine(e.Message);
-                Debug.WriteLine(Directory.GetCurrentDirectory());
-                return false;
+                Debug.WriteLine($"Error: {ex.Message}");
             }
-        }
 
+            return false;
+        }
 
         private void lbl_SignUp_Click(object sender, EventArgs e)
         {

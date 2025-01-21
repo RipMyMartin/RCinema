@@ -1,5 +1,7 @@
 using RCinema_db.Account;
+using RCinema_db.Admin;
 using RCinema_db.FrontEnd;
+using RCinema_db.User;
 
 namespace RCinema_db
 {
@@ -14,7 +16,7 @@ namespace RCinema_db
         {
             ApplicationConfiguration.Initialize();
             Panel parentContentPanel = new Panel();
-            Application.Run(new Login());  
+            Application.Run(new Movies());  
         }
     }
 }

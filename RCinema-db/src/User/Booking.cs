@@ -1,4 +1,5 @@
 ﻿using System;
+using MovieTicketApp.src.Managers;
 using RCinema_db.src.Managers;
 
 namespace RCinema_db.src.User

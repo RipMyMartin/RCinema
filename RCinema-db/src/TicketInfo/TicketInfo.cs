@@ -1,8 +1,9 @@
-﻿using RCinema_db.src.MovieSession;
+﻿using RCinema_db.src.Movie;
+using RCinema_db.src.MovieSession;
 using RCinema_db.src.Seat;
 using System;
 
-namespace RCinema_db.src.TicketInfo
+namespace MovieTicketApp
 {
     public static class TicketInfo
     {

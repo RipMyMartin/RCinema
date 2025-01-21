@@ -1,4 +1,5 @@
-﻿using RCinema_db.src.Managers;
+﻿using MovieTicketApp.src.Managers;
+using RCinema_db.src.Managers;
 using RCinema_db.src.User;
 using RCinema_db.User;
 
@@ -40,13 +41,14 @@ namespace RCinema_db.Account
                 lbl_PWMatchWarning.Visible = false;
             }
 
-            // If input is valid, update the password and perform any necessary actions
+            /*
             User currentUser = CurrentUserManager.Instance.CurrentUser;
 
             if (currentUser != null)
             {
                 UserData.ChangePassword(currentUser.Id, newPassword);
             }
+            */
 
             // Provide feedback to the user (e.g., show a success message)
             UserProfile form = new UserProfile();
@@ -64,6 +66,5 @@ namespace RCinema_db.Account
             this.Close();
         }
     }
+}
 
-}
-}

@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.ApplicationServices;
+using RCinema_db.src.User;
+using System;
 
 namespace RCinema_db.src.Managers
 {
     public class CurrentUserManager
     {
         private static CurrentUserManager _instance;
-        public User CurrentUser { get; private set; }
+        public User.User CurrentUser { get; private set; }
 
         private CurrentUserManager() { }
 
@@ -21,7 +23,7 @@ namespace RCinema_db.src.Managers
             }
         }
 
-        public void SetCurrentUser(User user)
+        public void SetCurrentUser(User.User user)
         {
             CurrentUser = user;
         }

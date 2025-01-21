@@ -84,6 +84,7 @@
             lbl_LogIn.Size = new Size(60, 20);
             lbl_LogIn.TabIndex = 29;
             lbl_LogIn.Text = "LOG IN";
+            lbl_LogIn.Click += lbl_LogIn_Click_1;
             // 
             // lbl_Already_Member
             // 
@@ -117,6 +118,7 @@
             btn_SignUp.TabIndex = 26;
             btn_SignUp.Text = "Sign Up";
             btn_SignUp.UseVisualStyleBackColor = false;
+            btn_SignUp.Click += btn_SignUp_Click_1;
             // 
             // lbl_LastName
             // 

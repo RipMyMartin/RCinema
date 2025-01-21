@@ -1,20 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace RCinema_db.Account
 {
     public partial class SignUp : Form
     {
-        private string loginCredentialsFile = ".\\login-credentials.txt";
-        private string email = "";
+        private string connectionString = Database.DatabaseConnection.connectionString;
+        private string username = "";
         private string password = "";
         private string firstName = "";
         private string lastName = "";
@@ -26,50 +21,56 @@ namespace RCinema_db.Account
 
         private void frm_SignUp_FormClosed(object sender, FormClosedEventArgs e)
         {
-            this.Close(); 
+            this.Close();
         }
 
-        private void SaveCredentialsToFile()
+        private void SaveCredentialsToDatabase()
         {
             try
             {
-                int newUserId;
-
-                string[] lines = File.ReadAllLines(loginCredentialsFile);
-
-                if (lines.Length > 0)
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    string[] lastLineData = lines[lines.Length - 1].Split(',');
-                    int lastUserId = Convert.ToInt32(lastLineData[0]);
-                    newUserId = lastUserId + 1;
-                }
-                else
-                {
-                    newUserId = 10001;
-                }
+                    connection.Open();
 
-                string newUserLine = $"{newUserId},{email},{password},{firstName},{lastName}" + Environment.NewLine;
-                File.AppendAllText(loginCredentialsFile, newUserLine);
+                    string query = "INSERT INTO Account (UserName, FirstName, LastName, Password, Role) VALUES (@UserName, @FirstName, @LastName, @Password, @Role)";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@UserName", username);
+                        command.Parameters.AddWithValue("@FirstName", firstName);
+                        command.Parameters.AddWithValue("@LastName", lastName);
+                        command.Parameters.AddWithValue("@Password", password);
+                        command.Parameters.AddWithValue("@Role", "User");
+
+                        command.ExecuteNonQuery();
+                    }
+                }
             }
-            catch (FileNotFoundException e)
+            catch (Exception ex)
             {
-                Debug.WriteLine(e.Message);
+                Debug.WriteLine($"Error: {ex.Message}");
             }
         }
 
-        private void btn_SignUp_Click(object sender, EventArgs e)
+        private void lbl_LogIn_Click_1(object sender, EventArgs e)
+        {
+            Login loginForm = new Login();
+            loginForm.Show();
+            this.Hide();
+        }
+
+        private void btn_SignUp_Click_1(object sender, EventArgs e)
         {
             TextBox[] textBoxes = { txt_Email, txt_Password, txt_FirstName, txt_LastName };
 
             if (textBoxes.All(txt => !string.IsNullOrWhiteSpace(txt.Text)))
             {
-                email = txt_Email.Text;
+                username = txt_Email.Text;
                 password = txt_Password.Text;
                 firstName = txt_FirstName.Text;
                 lastName = txt_LastName.Text;
 
-                SaveCredentialsToFile();
-                MessageBox.Show("Sign up successfull!");
+                SaveCredentialsToDatabase();
+                MessageBox.Show("Sign-up successful!");
 
                 Login login = new Login();
                 login.Show();
@@ -80,13 +81,5 @@ namespace RCinema_db.Account
                 MessageBox.Show("Please fill in all fields");
             }
         }
-
-        private void lbl_LogIn_Click(object sender, EventArgs e)
-        {
-            Login loginForm = new Login();
-            loginForm.Show();
-            this.Hide();
-        }
-
     }
 }
