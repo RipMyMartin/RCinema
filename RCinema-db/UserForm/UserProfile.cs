@@ -57,7 +57,7 @@ namespace RCinema_db.User
 
         private void btn_ChangePassword_Click(object sender, EventArgs e)
         {
-            ChangePassword changePasswordForm = new ChangePassword(_userId);
+            ChangePassword changePasswordForm = new ChangePassword();
             changePasswordForm.Show();
             this.Hide();
         }
@@ -144,7 +144,7 @@ namespace RCinema_db.User
 
         private void btn_GoToChangePW_Click_1(object sender, EventArgs e)
         {
-            ChangePassword form = new ChangePassword(_userId);
+            ChangePassword form = new ChangePassword();
             form.Show();
             this.Close();
         }

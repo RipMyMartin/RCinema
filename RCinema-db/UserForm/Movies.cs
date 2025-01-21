@@ -86,7 +86,7 @@ namespace RCinema_db.User
 
         private void btn_Log_Out_Click_1(object sender, EventArgs e)
         {
-            Login login = new Login(_userId);
+            Login login = new Login();
             login.Show();
             this.Close();
         }

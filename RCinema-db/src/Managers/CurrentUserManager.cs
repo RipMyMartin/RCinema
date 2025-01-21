@@ -1,6 +1,4 @@
-﻿using Microsoft.VisualBasic.ApplicationServices;
-using RCinema_db.src.User;
-using System;
+﻿using System;
 
 namespace RCinema_db.src.Managers
 {
@@ -17,7 +15,13 @@ namespace RCinema_db.src.Managers
             {
                 if (_instance == null)
                 {
-                    _instance = new CurrentUserManager();
+                    lock (typeof(CurrentUserManager))
+                    {
+                        if (_instance == null)
+                        {
+                            _instance = new CurrentUserManager();
+                        }
+                    }
                 }
                 return _instance;
             }
@@ -25,7 +29,22 @@ namespace RCinema_db.src.Managers
 
         public void SetCurrentUser(User.User user)
         {
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user), "User cannot be null");
+            }
+
             CurrentUser = user;
+            Console.WriteLine($"Current user set: UserID={user.Id}");
+        }
+
+        public User.User GetCurrentUser()
+        {
+            if (CurrentUser == null)
+            {
+                throw new InvalidOperationException("Current user is not set.");
+            }
+            return CurrentUser;
         }
     }
 }

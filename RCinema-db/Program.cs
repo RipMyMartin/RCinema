@@ -20,7 +20,7 @@ namespace RCinema_db
 
             ApplicationConfiguration.Initialize();
             Panel parentContentPanel = new Panel();
-            Application.Run(new Login(_userId));
+            Application.Run(new Login());
         }
     }
 }

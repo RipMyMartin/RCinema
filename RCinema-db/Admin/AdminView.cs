@@ -39,7 +39,7 @@ namespace RCinema_db.Admin
         private void btn_Log_Out_Click_1(object sender, EventArgs e)
         {
             FileManager.Save();
-            Login logout = new Login(_userId);
+            Login logout = new Login();
             logout.Show();
             this.Hide();
         }
