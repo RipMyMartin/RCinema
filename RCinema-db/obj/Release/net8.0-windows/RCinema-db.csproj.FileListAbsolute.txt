@@ -87,3 +87,4 @@ C:\Users\ripmy\Source\Repos\RCinema\RCinema-db\obj\Release\net8.0-windows\refint
 C:\Users\ripmy\Source\Repos\RCinema\RCinema-db\obj\Release\net8.0-windows\RCinema-db.pdb
 C:\Users\ripmy\Source\Repos\RCinema\RCinema-db\obj\Release\net8.0-windows\RCinema-db.genruntimeconfig.cache
 C:\Users\ripmy\Source\Repos\RCinema\RCinema-db\obj\Release\net8.0-windows\ref\RCinema-db.dll
+C:\Users\ripmy\Source\Repos\RCinema\RCinema-db\obj\Release\net8.0-windows\RCinema_db.UserForm.SeatSelectionForm.resources

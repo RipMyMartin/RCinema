@@ -1,5 +1,6 @@
 ﻿using RCinema_db.Account;
 using RCinema_db.src.Movie;
+using RCinema_db.UserForm;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -119,6 +120,22 @@ namespace RCinema_db.User
                 {
                     Debug.WriteLine($"An error occurred while loading the poster: {ex.Message}");
                 }
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (listbox_Movies.SelectedIndex >= 0)
+            {
+                Movie selectedMovie = (Movie)listbox_Movies.SelectedItem;
+
+                SeatSelectionForm seatSelectionForm = new SeatSelectionForm(selectedMovie, _userId);
+                seatSelectionForm.Show();
+                this.Hide();
+            }
+            else
+            {
+                MessageBox.Show("Please select a movie first.", "No Movie Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
     }

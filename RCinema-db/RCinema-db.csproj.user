@@ -26,6 +26,9 @@
     <Compile Update="UserForm\Movies.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="UserForm\SeatSelectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="UserForm\UserProfile.cs">
       <SubType>Form</SubType>
     </Compile>

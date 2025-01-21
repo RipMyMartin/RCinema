@@ -31,7 +31,6 @@
             Exit = new Button();
             btn_UserProfile = new Button();
             btn_Log_Out = new Button();
-            lbl_Sessions = new Label();
             lbl_Movie_Release_Date = new Label();
             txt_Movie_Description = new TextBox();
             lbl_Movie_Duration_Genre = new Label();
@@ -39,6 +38,7 @@
             picbox_Movie_Poster = new PictureBox();
             lbl_Title_Login = new Label();
             listbox_Movies = new ListBox();
+            button2 = new Button();
             ((System.ComponentModel.ISupportInitialize)picbox_Movie_Poster).BeginInit();
             SuspendLayout();
             // 
@@ -76,16 +76,6 @@
             btn_Log_Out.Text = "Log Out";
             btn_Log_Out.UseVisualStyleBackColor = true;
             btn_Log_Out.Click += btn_Log_Out_Click_1;
-            // 
-            // lbl_Sessions
-            // 
-            lbl_Sessions.AutoSize = true;
-            lbl_Sessions.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold);
-            lbl_Sessions.Location = new Point(275, 335);
-            lbl_Sessions.Name = "lbl_Sessions";
-            lbl_Sessions.Size = new Size(83, 25);
-            lbl_Sessions.TabIndex = 28;
-            lbl_Sessions.Text = "Sessions";
             // 
             // lbl_Movie_Release_Date
             // 
@@ -161,15 +151,27 @@
             listbox_Movies.TabIndex = 21;
             listbox_Movies.SelectedIndexChanged += listbox_Movies_SelectedIndexChanged_1;
             // 
+            // button2
+            // 
+            button2.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+            button2.ForeColor = Color.Firebrick;
+            button2.Location = new Point(487, 364);
+            button2.Name = "button2";
+            button2.Size = new Size(116, 63);
+            button2.TabIndex = 37;
+            button2.Text = "Buy";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
             // Movies
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(button2);
             Controls.Add(Exit);
             Controls.Add(btn_UserProfile);
             Controls.Add(btn_Log_Out);
-            Controls.Add(lbl_Sessions);
             Controls.Add(lbl_Movie_Release_Date);
             Controls.Add(txt_Movie_Description);
             Controls.Add(lbl_Movie_Duration_Genre);
@@ -189,7 +191,6 @@
         private Button Exit;
         private Button btn_UserProfile;
         private Button btn_Log_Out;
-        private Label lbl_Sessions;
         private Label lbl_Movie_Release_Date;
         private TextBox txt_Movie_Description;
         private Label lbl_Movie_Duration_Genre;
@@ -197,5 +198,6 @@
         private PictureBox picbox_Movie_Poster;
         private Label lbl_Title_Login;
         private ListBox listbox_Movies;
+        private Button button2;
     }
 }
