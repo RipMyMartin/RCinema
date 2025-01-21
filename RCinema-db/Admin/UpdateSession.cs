@@ -5,15 +5,16 @@ namespace RCinema_db.Admin
 {
     public partial class UpdateSession : Form
     {
-        public UpdateSession()
+        private static int _userId;
+        public UpdateSession(int userId)
         {
             InitializeComponent();
+            _userId = userId;
             sessionGrid.DataSource = GlobalData.Sessions;
 
             dateTimePicker_SessionTime.Format = DateTimePickerFormat.Custom;
             dateTimePicker_SessionTime.CustomFormat = "hh:mm tt";
             dateTimePicker_SessionTime.ShowUpDown = true;
-
         }
 
         private void sessionGrid_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -175,7 +176,7 @@ namespace RCinema_db.Admin
         private void btn_Cancel_Click(object sender, EventArgs e)
         {
             FileManager.SaveSessions();
-            AdminView form = new AdminView();
+            AdminView form = new AdminView(_userId);
             form.Show();
             this.Hide();
         }

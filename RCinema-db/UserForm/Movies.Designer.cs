@@ -159,6 +159,7 @@
             listbox_Movies.Name = "listbox_Movies";
             listbox_Movies.Size = new Size(207, 304);
             listbox_Movies.TabIndex = 21;
+            listbox_Movies.SelectedIndexChanged += listbox_Movies_SelectedIndexChanged_1;
             // 
             // Movies
             // 

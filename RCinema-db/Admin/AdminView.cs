@@ -15,21 +15,23 @@ namespace RCinema_db.Admin
 {
     public partial class AdminView : Form
     {
-        public AdminView()
+        private int _userId;
+        public AdminView(int userId)
         {
             InitializeComponent();
+            _userId = userId;
         }
 
         private void btn_EditUser_Click(object sender, EventArgs e)
         {
-            UpdateUser form = new UpdateUser();
+            UpdateUser form = new UpdateUser(_userId);
             form.Show();
             this.Hide();
         }
 
         private void btn_EditMovie_Click_1(object sender, EventArgs e)
         {
-            UpdateMovie form = new UpdateMovie();
+            UpdateMovie form = new UpdateMovie(_userId);
             form.Show();
             this.Hide();
         }
@@ -37,7 +39,7 @@ namespace RCinema_db.Admin
         private void btn_Log_Out_Click_1(object sender, EventArgs e)
         {
             FileManager.Save();
-            Login logout = new Login();
+            Login logout = new Login(_userId);
             logout.Show();
             this.Hide();
         }

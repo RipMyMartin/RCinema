@@ -51,6 +51,7 @@
             btn_BackToMovies.TabIndex = 39;
             btn_BackToMovies.Text = "Go Back";
             btn_BackToMovies.UseVisualStyleBackColor = false;
+            btn_BackToMovies.Click += btn_BackToMovies_Click_1;
             // 
             // btn_ChangePW
             // 
@@ -63,6 +64,7 @@
             btn_ChangePW.TabIndex = 38;
             btn_ChangePW.Text = "Submit";
             btn_ChangePW.UseVisualStyleBackColor = false;
+            btn_ChangePW.Click += btn_ChangePW_Click_1;
             // 
             // lbl_PWMatchWarning
             // 

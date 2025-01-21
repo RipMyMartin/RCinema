@@ -1,69 +1,75 @@
-﻿using MovieTicketApp.src.Managers;
-using RCinema_db.Account;
+﻿using RCinema_db.Account;
 using RCinema_db.src.Movie;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace RCinema_db.User
 {
     public partial class Movies : Form
     {
-        private string _moviesFile = ".\\movies.txt";
-        private string _sessionsFile = ".\\sessions.txt";
+        private string _connectionString = Database.DatabaseConnection.connectionString;
 
-        List<Movie> movies = GlobalData.Movies;
-
-        public Movies()
+        private List<Movie> movies = new List<Movie>();
+        private int _userId;
+        public Movies(int userId)
         {
             InitializeComponent();
 
-            //movies = LoadMovies(_moviesFile, _sessionsFile);
-            // this string needs to match the name of a Movie field (i.e. Title, Genre, etc)
+            LoadMoviesFromDatabase();
+
             listbox_Movies.DisplayMember = "Title";
             listbox_Movies.DataSource = movies;
+            _userId = userId;
+        }
+
+        private void LoadMoviesFromDatabase()
+        {
+            string query = "SELECT id, title, genre, hours, minutes, year, month, day, description, poster FROM Movies";
+
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Movie movie = new Movie(
+                                    reader.GetInt32(0),
+                                    reader.GetString(1),
+                                    reader.IsDBNull(2) ? "Unknown" : reader.GetString(2),
+                                    reader.GetInt32(3),
+                                    reader.GetInt32(4),
+                                    reader.GetInt32(5),
+                                    reader.GetInt32(6),
+                                    reader.GetInt32(7),
+                                    reader.IsDBNull(8) ? "No description available." : reader.GetString(8),
+                                    reader.IsDBNull(9) ? null : reader.GetString(9)
+                                );
+                                movies.Add(movie);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"An error occurred while loading movies: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
 
         public void Form_Movies_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.Close();
-        }
-
-        private void listbox_Movies_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (listbox_Movies.SelectedIndex >= 0)
-            {
-                // need to cast the list item into a Movie object in order access its properties
-                Movie selectedMovie = (Movie)listbox_Movies.SelectedItem;
-
-                lbl_Movie_Title.Text = selectedMovie.Title;
-                lbl_Movie_Duration_Genre.Text = $"{selectedMovie.Duration}, {selectedMovie.Genre}";
-                lbl_Movie_Release_Date.Text = $"Released on {selectedMovie.ReleaseDate.ToString("dd MMM yyyy")}";
-                txt_Movie_Description.Text = selectedMovie.Description;
-
-                string moviePoster = selectedMovie.Poster;
-
-                try
-                {
-                    picbox_Movie_Poster.Image = Image.FromFile(moviePoster);
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine($"An error occurred: {ex.Message}");
-                }
-            }
-        }
-
-        private void SessionButton_Click(object? sender, EventArgs e)
-        {
-
         }
 
         private void Exit_Click_1(object sender, EventArgs e)
@@ -73,16 +79,47 @@ namespace RCinema_db.User
 
         private void btn_UserProfile_Click_2(object sender, EventArgs e)
         {
-            UserProfile profile = new UserProfile();
+            UserProfile profile = new UserProfile(_userId);
             profile.Show();
             this.Close();
         }
 
         private void btn_Log_Out_Click_1(object sender, EventArgs e)
         {
-            Login login = new Login();
+            Login login = new Login(_userId);
             login.Show();
             this.Close();
+        }
+
+        private void listbox_Movies_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            if (listbox_Movies.SelectedIndex >= 0)
+            {
+                Movie selectedMovie = (Movie)listbox_Movies.SelectedItem;
+
+                lbl_Movie_Title.Text = selectedMovie.Title;
+                lbl_Movie_Duration_Genre.Text = $"{selectedMovie.Duration}, {selectedMovie.Genre}";
+                lbl_Movie_Release_Date.Text = $"Released on {selectedMovie.ReleaseDate:dd MMM yyyy}";
+                txt_Movie_Description.Text = selectedMovie.Description;
+
+                string moviePoster = selectedMovie.Poster;
+
+                try
+                {
+                    if (!string.IsNullOrEmpty(moviePoster))
+                    {
+                        picbox_Movie_Poster.Image = Image.FromFile(moviePoster);
+                    }
+                    else
+                    {
+                        picbox_Movie_Poster.Image = null; // Clear the image if no poster
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"An error occurred while loading the poster: {ex.Message}");
+                }
+            }
         }
     }
 }

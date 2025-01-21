@@ -18,10 +18,12 @@ namespace RCinema_db.Admin
     public partial class UpdateMovie : Form
     {
         private string connectionString = Database.DatabaseConnection.connectionString;
-        public UpdateMovie()
+        private int _userId;
+        public UpdateMovie(int userId)
         {
             InitializeComponent();
             LoadMovies();
+            _userId = userId;
         }
 
         // Load movies from the database into the DataGridView
@@ -175,7 +177,7 @@ namespace RCinema_db.Admin
 
         private void button1_Click(object sender, EventArgs e)
         {
-            AdminView admin = new AdminView();
+            AdminView admin = new AdminView(_userId);
             admin.Show();
             this.Close();
         }

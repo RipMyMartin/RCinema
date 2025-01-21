@@ -1,4 +1,5 @@
-﻿using MovieTicketApp.src.Managers;
+﻿using Microsoft.VisualBasic.ApplicationServices;
+using MovieTicketApp.src.Managers;
 using RCinema_db.Account;
 using RCinema_db.src.Managers;
 using RCinema_db.src.Movie;
@@ -19,17 +20,17 @@ namespace RCinema_db.User
     {
         string[] dataArray = { "Button 1", "Button 2", "Button 3", "Button 4", "Button 5" };
 
-
-        public UserProfile()
+        private int _userId;
+        public UserProfile(int userId)
         {
-
+            _userId = userId;
             foreach (string item in dataArray)
             {
                 Button button = new Button
                 {
                     Text = item,
-                    Width = 100, 
-                    Height = 30   
+                    Width = 100,
+                    Height = 30
                 };
 
                 button.Click += Button_Click;
@@ -56,7 +57,7 @@ namespace RCinema_db.User
 
         private void btn_ChangePassword_Click(object sender, EventArgs e)
         {
-            ChangePassword changePasswordForm = new ChangePassword();
+            ChangePassword changePasswordForm = new ChangePassword(_userId);
             changePasswordForm.Show();
             this.Hide();
         }
@@ -89,7 +90,7 @@ namespace RCinema_db.User
 
                 if (parts.Length >= 2)
                 {
-                    string part = parts[1]; 
+                    string part = parts[1];
                     string[] splitParts = part.Split(':');
                     if (splitParts.Length == 2)
                     {
@@ -129,25 +130,23 @@ namespace RCinema_db.User
             }
         }
 
-
-        private void btn_BackToMovies_Click(object sender, EventArgs e)
-        {
-            Movies movies = new Movies();
-            movies.Show();
-            this.Close();
-        }
-
-        private void btn_GoToChangePW_Click(object sender, EventArgs e)
-        {
-            ChangePassword form = new ChangePassword();
-            form.Show();
-            this.Close();
-        }
-
         private void lbl_MovieName_Click(object sender, EventArgs e)
         {
 
         }
 
+        private void btn_BackToMovies_Click_1(object sender, EventArgs e)
+        {
+            Movies movies = new Movies(_userId);
+            movies.Show();
+            this.Close();
+        }
+
+        private void btn_GoToChangePW_Click_1(object sender, EventArgs e)
+        {
+            ChangePassword form = new ChangePassword(_userId);
+            form.Show();
+            this.Close();
+        }
     }
 }

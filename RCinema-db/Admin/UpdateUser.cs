@@ -9,11 +9,12 @@ namespace RCinema_db.Admin
     public partial class UpdateUser : Form
     {
         private string connectionString = Database.DatabaseConnection.connectionString;
-
-        public UpdateUser()
+        private int _userId;
+        public UpdateUser(int userId)
         {
             InitializeComponent();
             LoadUserData();
+            _userId = userId;
         }
 
         private void LoadUserData()
@@ -42,7 +43,7 @@ namespace RCinema_db.Admin
 
         private void btn_Cancel_Click_1(object sender, EventArgs e)
         {
-            AdminView admin = new AdminView();
+            AdminView admin = new AdminView(_userId);
             admin.Show();
             this.Close();
         }

@@ -12,10 +12,11 @@ namespace RCinema_db.Account
     public partial class Login : Form
     {
         private string connectionString = Database.DatabaseConnection.connectionString;
-
-        public Login()
+        private int _userId;
+        public Login(int userId)
         {
             InitializeComponent();
+            _userId = userId;
         }
 
         private void frm_Login_FormClosed(object sender, FormClosedEventArgs e)
@@ -32,13 +33,13 @@ namespace RCinema_db.Account
             {
                 if (role == "Admin")
                 {
-                    AdminView adminView = new AdminView();
+                    AdminView adminView = new AdminView(_userId);
                     adminView.Show();
                     this.Hide();
                 }
                 else
                 {
-                    Movies frm_Movies = new Movies();
+                    Movies frm_Movies = new Movies(_userId);
                     frm_Movies.Show();
                     this.Hide();
                 }
@@ -93,7 +94,7 @@ namespace RCinema_db.Account
 
         private void lbl_SignUp_Click(object sender, EventArgs e)
         {
-            SignUp signUpForm = new SignUp();
+            SignUp signUpForm = new SignUp(_userId);
             signUpForm.Show();
             this.Hide();
         }

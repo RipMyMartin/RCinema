@@ -13,10 +13,11 @@ namespace RCinema_db.Account
         private string password = "";
         private string firstName = "";
         private string lastName = "";
-
-        public SignUp()
+        private int _userId;
+        public SignUp(int userId)
         {
             InitializeComponent();
+            _userId = userId;
         }
 
         private void frm_SignUp_FormClosed(object sender, FormClosedEventArgs e)
@@ -53,7 +54,7 @@ namespace RCinema_db.Account
 
         private void lbl_LogIn_Click_1(object sender, EventArgs e)
         {
-            Login loginForm = new Login();
+            Login loginForm = new Login(_userId);
             loginForm.Show();
             this.Hide();
         }
@@ -72,7 +73,7 @@ namespace RCinema_db.Account
                 SaveCredentialsToDatabase();
                 MessageBox.Show("Sign-up successful!");
 
-                Login login = new Login();
+                Login login = new Login(_userId);
                 login.Show();
                 this.Close();
             }

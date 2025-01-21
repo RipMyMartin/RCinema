@@ -85,6 +85,7 @@
             btn_BackToMovies.TabIndex = 32;
             btn_BackToMovies.Text = "Go Back";
             btn_BackToMovies.UseVisualStyleBackColor = false;
+            btn_BackToMovies.Click += btn_BackToMovies_Click_1;
             // 
             // btn_GoToChangePW
             // 
@@ -97,6 +98,7 @@
             btn_GoToChangePW.TabIndex = 31;
             btn_GoToChangePW.Text = "Change Password";
             btn_GoToChangePW.UseVisualStyleBackColor = false;
+            btn_GoToChangePW.Click += btn_GoToChangePW_Click_1;
             // 
             // label2
             // 
