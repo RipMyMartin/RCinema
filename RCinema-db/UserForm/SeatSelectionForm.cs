@@ -1,6 +1,7 @@
 ﻿using RCinema_db.src.Movie;
 using RCinema_db.src.MovieSession;
 using RCinema_db.src.Seat;
+using RCinema_db.User;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -14,7 +15,9 @@ namespace RCinema_db.UserForm
         private string _connectionString = Database.DatabaseConnection.connectionString;
         private Movie _selectedMovie;
         private int _userId;
-        private Dictionary<string, bool> seatAvailability = new Dictionary<string, bool>(); // true for available, false for booked
+        private Button[,] seatButtons;
+        private const int Rows = 5;
+        private const int Columns = 5;
 
         public SeatSelectionForm(Movie movie, int userId)
         {
@@ -22,263 +25,224 @@ namespace RCinema_db.UserForm
             _selectedMovie = movie;
             _userId = userId;
 
-            // Load sessions
-            LoadSessions();
-
-            // Setup seats
-            SetupSeats();  // Add the call to this method
+            LoadMovieDetails();
+            CreateSeatGrid();
+            LoadSeatAvailability();
         }
 
-        private void LoadSessions()
+        private void LoadMovieDetails()
         {
-            string query = "SELECT id, time, totalAvailableSeats FROM Sessions WHERE movieID = @MovieID";
+            lbl_Title.Text = _selectedMovie.Title;
+            lbl_GenreDuration.Text = $"{_selectedMovie.Duration} mins, {_selectedMovie.Genre}";
+            lbl_ReleaseDate.Text = $"Released on {_selectedMovie.ReleaseDate:dd MMM yyyy}";
+            txt_Description.Text = _selectedMovie.Description;
 
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            if (!string.IsNullOrEmpty(_selectedMovie.Poster))
             {
                 try
                 {
-                    connection.Open();
+                    pic_Poster.Image = Image.FromFile(_selectedMovie.Poster);
+                }
+                catch
+                {
+                    pic_Poster.Image = null;
+                }
+            }
+        }
 
-                    using (SqlCommand command = new SqlCommand(query, connection))
+        private void CreateSeatGrid()
+        {
+            seatButtons = new Button[Rows, Columns];
+
+            // Set FlowLayoutPanel properties to arrange the buttons in a grid-like pattern
+            flow_SeatGrid.FlowDirection = FlowDirection.TopDown;
+            flow_SeatGrid.WrapContents = true;
+
+            for (int row = 0; row < Rows; row++)
+            {
+                for (int col = 0; col < Columns; col++)
+                {
+                    Button seatButton = new Button
                     {
-                        command.Parameters.AddWithValue("@MovieID", _selectedMovie.Id);
+                        Width = 40,
+                        Height = 40,
+                        Margin = new Padding(5),
+                        Tag = new { Row = row, Column = col },
+                        BackColor = Color.LightGreen
+                    };
+                    seatButton.Click += SeatButton_Click;
 
-                        using (SqlDataReader reader = command.ExecuteReader())
+                    seatButtons[row, col] = seatButton;
+                    flow_SeatGrid.Controls.Add(seatButton);
+                }
+            }
+        }
+
+        private void LoadSeatAvailability()
+        {
+            string query = "SELECT seatsBooked FROM Bookings WHERE movieID = @MovieId";
+
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@MovieId", _selectedMovie.Id);
+
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+
+                List<string> bookedSeats = new List<string>();
+
+                while (reader.Read())
+                {
+                    // Получаем забронированные места как строку (например, "A1, A2, B3")
+                    string seats = reader.GetString(0);
+                    bookedSeats.AddRange(seats.Split(','));
+                }
+
+                // Пройдем по всем кнопкам и проверим, заняты ли они
+                for (int row = 0; row < Rows; row++)
+                {
+                    for (int col = 0; col < Columns; col++)
+                    {
+                        string seatName = $"{(char)(row + 'A')}{col}";
+
+                        if (bookedSeats.Contains(seatName))
                         {
-                            while (reader.Read())
-                            {
-                                int sessionId = reader.GetInt32(0);
-                                DateTime startTime = reader.GetDateTime(1);
-                                int totalSeats = reader.GetInt32(2);
-
-                                // Create session object
-                                var session = new src.MovieSession.Sessions(sessionId, startTime, totalSeats);
-
-                                // Add session to ComboBox
-                                comboBox_Sessions.Items.Add(session);
-                            }
+                            seatButtons[row, col].BackColor = Color.Red; // Место занято
+                            seatButtons[row, col].Enabled = false; // Сделать кнопку неактивной
+                        }
+                        else
+                        {
+                            seatButtons[row, col].BackColor = Color.LightGreen; // Место свободно
+                            seatButtons[row, col].Enabled = true;
                         }
                     }
                 }
-                catch (Exception ex)
+            }
+        }
+
+        private void SeatButton_Click(object sender, EventArgs e)
+        {
+            Button clickedButton = sender as Button;
+            if (clickedButton != null)
+            {
+                var position = (dynamic)clickedButton.Tag;
+                int row = position.Row;
+                int column = position.Column;
+
+                // Если место уже забронировано (красное), то не даем его выбрать
+                if (clickedButton.BackColor == Color.Red)
                 {
-                    MessageBox.Show($"Error loading sessions: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("This seat has already been booked.");
+                    return; // Возвращаемся, чтобы не менять цвет
+                }
+
+                // Если место свободно (зеленое), выбираем его
+                if (clickedButton.BackColor == Color.LightGreen)
+                {
+                    clickedButton.BackColor = Color.Yellow; // Выбираем место
+                }
+                else if (clickedButton.BackColor == Color.Yellow)
+                {
+                    clickedButton.BackColor = Color.LightGreen; // Отменяем выбор
                 }
             }
         }
-        public void SaveBooking(int movieId, string seatId, int userId, decimal totalAmount, string title)
+        private void btn_Book_Click(object sender, EventArgs e)
         {
-            // Save the booking to the database
-            string query = "INSERT INTO TicketInfo (movieID, seatId, userID, ticketPrice, subtotal, title) " +
-                           "VALUES (@movieId, @seatId, @userId, @ticketPrice, @subtotal, @title)";
+            List<string> selectedSeats = new List<string>();
 
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            for (int row = 0; row < Rows; row++)
             {
-                try
+                for (int col = 0; col < Columns; col++)
                 {
-                    // Open the connection
-                    connection.Open();
-
-                    using (SqlCommand cmd = new SqlCommand(query, connection)) // Pass the connection to the SqlCommand
+                    if (seatButtons[row, col].BackColor == Color.Yellow)  // Yellow for selected seats
                     {
-                        cmd.Parameters.AddWithValue("@movieId", movieId);
-                        cmd.Parameters.AddWithValue("@seatId", seatId); // Insert seatId
-                        cmd.Parameters.AddWithValue("@userId", userId);
-                        cmd.Parameters.AddWithValue("@ticketPrice", 10.00m);  // Example ticket price
-                        cmd.Parameters.AddWithValue("@subtotal", totalAmount);
-                        cmd.Parameters.AddWithValue("@title", title);  // Provide the title value
-
-                        // Execute the command to insert the record
-                        cmd.ExecuteNonQuery();
+                        selectedSeats.Add($"{(char)(row + 'A')}{col}");
                     }
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error saving booking: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
             }
-        }
 
-
-
-
-
-
-
-
-        private void Btn_ConfirmPurchase_Click(object sender, EventArgs e)
-        {
-            if (comboBox_Sessions.SelectedIndex >= 0)
+            if (selectedSeats.Count > 0)
             {
-                Sessions selectedSession = (Sessions)comboBox_Sessions.SelectedItem;
+                string seats = string.Join(",", selectedSeats);
 
-                // Calculate the number of selected seats and the total amount
-                int selectedSeatsCount = GetSelectedSeats().Count;
-                decimal totalAmount = selectedSeatsCount * 10.00m;  // Assuming each ticket costs $10.00
-
-                // Logic for booking - Pass each seat individually to the SaveBooking method
-                foreach (string seat in GetSelectedSeats())
+                // Проверка, не забронировано ли уже место в базе данных
+                string checkSeatsQuery = "SELECT SeatRow, SeatColumn FROM Seats WHERE MovieId = @MovieId AND IsBooked = 1 AND SeatRow + '-' + SeatColumn IN (@Seats)";
+                using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
-                    SaveBooking(selectedSession.MovieId, seat, _userId, totalAmount, _selectedMovie.Title);
+                    SqlCommand checkSeatsCommand = new SqlCommand(checkSeatsQuery, connection);
+                    checkSeatsCommand.Parameters.AddWithValue("@MovieId", _selectedMovie.Id);
+                    checkSeatsCommand.Parameters.AddWithValue("@Seats", string.Join(",", selectedSeats));  // Проверка выбранных мест
+
+                    connection.Open();
+                    SqlDataReader reader = checkSeatsCommand.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        MessageBox.Show("One or more of the selected seats have already been booked. Please choose other seats.");
+                        return; // Если хотя бы одно место занято, прерываем бронирование
+                    }
+                }
+
+                // Если все места свободны, продолжаем бронирование
+                string query = "INSERT INTO Bookings (session, numberOfTickets, seatsBooked, subtotal, ticketType, userID, MovieId) " +
+                               "VALUES (@Session, @Tickets, @Seats, @Subtotal, @Type, @UserId, @MovieId);";
+
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    SqlCommand command = new SqlCommand(query, connection);
+
+                    command.Parameters.AddWithValue("@Session", DateTime.Now);
+                    command.Parameters.AddWithValue("@Tickets", selectedSeats.Count);
+                    command.Parameters.AddWithValue("@Seats", seats);
+                    command.Parameters.AddWithValue("@Subtotal", selectedSeats.Count * 10.0m);  // Assuming $10 per ticket
+                    command.Parameters.AddWithValue("@Type", "Standard");
+                    command.Parameters.AddWithValue("@UserId", _userId);
+                    command.Parameters.AddWithValue("@MovieId", _selectedMovie.Id);  // Добавлен MovieId
+
+                    connection.Open();
+
+                    // Выполнение команды на добавление в таблицу Bookings
+                    command.ExecuteNonQuery();
+
+                    // Обновление статуса занятых мест в таблице Seats
+                    foreach (var seat in selectedSeats)
+                    {
+                        var seatParts = seat.Split('-'); // Разделяем строку на два элемента: ряд и колонка
+                        if (seatParts.Length == 2)
+                        {
+                            string row = seatParts[0];
+                            int column = int.Parse(seatParts[1]);
+
+                            // Обновление статуса занятости места
+                            string updateSeatQuery = "UPDATE Seats SET IsBooked = 1 WHERE MovieId = @MovieId AND SeatRow = @Row AND SeatColumn = @Column";
+                            SqlCommand updateSeatCommand = new SqlCommand(updateSeatQuery, connection);
+                            updateSeatCommand.Parameters.AddWithValue("@MovieId", _selectedMovie.Id); // Передаем MovieId
+                            updateSeatCommand.Parameters.AddWithValue("@Row", row);
+                            updateSeatCommand.Parameters.AddWithValue("@Column", column);
+
+                            updateSeatCommand.ExecuteNonQuery();
+                        }
+                    }
+
+                    // Сообщение об успешном бронировании
+                    MessageBox.Show("Booking successful!");
                 }
             }
             else
             {
-                MessageBox.Show("Please select a session.", "No Session Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please select at least one seat.");
             }
         }
 
-        private void SetupSeats()
+
+
+        private void btn_BackToMovies_Click_1(object sender, EventArgs e)
         {
-            int seatWidth = 30;
-            int seatHeight = 30;
-
-            // Получаем список забронированных мест для выбранного сеанса
-            List<string> bookedSeats = GetBookedSeatsForSelectedSession();
-
-            for (int i = 0; i < 10; i++)
-            {
-                for (int j = 0; j < 10; j++)
-                {
-                    string seatKey = $"{i + 1}-{j + 1}"; // e.g., "1-1", "1-2", etc.
-
-                    Button seatButton = new Button();
-                    seatButton.Size = new Size(seatWidth, seatHeight);
-                    seatButton.Location = new Point(seatWidth * i, seatHeight * j);
-                    seatButton.Text = seatKey;
-                    seatButton.Click += SeatButton_Click;
-
-                    // Если место забронировано, изменяем цвет кнопки на красный
-                    if (bookedSeats.Contains(seatKey))
-                    {
-                        seatButton.BackColor = Color.Red; // Забронировано (красное)
-                        seatButton.Enabled = false; // Выключаем кнопку, чтобы нельзя было выбрать это место
-                    }
-                    else
-                    {
-                        seatButton.BackColor = Color.Green; // Доступное место (зеленое)
-                    }
-
-                    panel_Seats.Controls.Add(seatButton);
-                }
-            }
-        }
-
-        private List<string> GetBookedSeatsForSelectedSession()
-        {
-            List<string> bookedSeats = new List<string>();
-
-            if (comboBox_Sessions.SelectedIndex >= 0)
-            {
-                Sessions selectedSession = (Sessions)comboBox_Sessions.SelectedItem;
-                string query = "SELECT seatsBooked FROM TicketInfo WHERE movieID = @MovieID AND time = @SessionTime";
-
-                using (SqlConnection connection = new SqlConnection(_connectionString))
-                {
-                    try
-                    {
-                        connection.Open();
-
-                        using (SqlCommand command = new SqlCommand(query, connection))
-                        {
-                            command.Parameters.AddWithValue("@MovieID", _selectedMovie.Id);  // ID фильма
-                            command.Parameters.AddWithValue("@SessionTime", selectedSession.StartTime);  // Время сеанса
-
-                            using (SqlDataReader reader = command.ExecuteReader())
-                            {
-                                while (reader.Read())
-                                {
-                                    string seats = reader.GetString(0);
-                                    if (!string.IsNullOrEmpty(seats))
-                                    {
-                                        bookedSeats.AddRange(seats.Split(','));
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Error loading booked seats: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
-
-            return bookedSeats;
-        }
-
-
-
-        private void SeatButton_Click(object sender, EventArgs e)
-        {
-            Button seatButton = (Button)sender;
-            string seatKey = seatButton.Text;
-
-            if (seatButton.BackColor == Color.Green)  // If it's available
-            {
-                seatButton.BackColor = Color.Yellow; // Mark as selected (yellow)
-            }
-            else if (seatButton.BackColor == Color.Yellow)  // If it's selected
-            {
-                seatButton.BackColor = Color.Green; // Unselect the seat
-            }
-
-            lbl_SelectedSeats.Text = $"Selected Seats: {GetSelectedSeats()}";
-            lbl_TotalAmount.Text = $"Total: ${GetSelectedSeats().Count * 10.00m}";
-        }
-
-        private List<string> GetSelectedSeats()
-        {
-            List<string> selectedSeats = new List<string>();
-            foreach (Button btn in panel_Seats.Controls)
-            {
-                if (btn.BackColor == Color.Yellow) // Selected seats should be yellow
-                {
-                    selectedSeats.Add(btn.Text);
-                }
-            }
-            return selectedSeats;
-        }
-
-        private void ComboBox_Sessions_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (comboBox_Sessions.SelectedIndex >= 0)
-            {
-                // Get the selected session
-                Sessions selectedSession = (Sessions)comboBox_Sessions.SelectedItem;
-
-                // Update the form with session information
-                lbl_SessionInfo.Text = $"Selected Session: {selectedSession.StartTime.ToString("yyyy-MM-dd HH:mm")}";
-                lbl_AvailableSeats.Text = $"Available Seats: {selectedSession.TotalAvailableSeats}";
-            }
-        }
-
-        private void btn_Buy_Ticket_Click(object sender, EventArgs e)
-        {
-            if (comboBox_Sessions.SelectedIndex < 0)
-            {
-                MessageBox.Show("Please select a session first.", "No Session Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            List<string> selectedSeats = GetSelectedSeats();
-            if (selectedSeats.Count == 0)
-            {
-                MessageBox.Show("Please select at least one seat.", "No Seat Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            Sessions selectedSession = (Sessions)comboBox_Sessions.SelectedItem;
-            decimal totalAmount = selectedSeats.Count * 10.00m;  // Assuming each ticket costs $10.00
-
-            // Logic to save booking for each selected seat
-            foreach (string seatId in selectedSeats)
-            {
-                SaveBooking(selectedSession.MovieId, seatId, _userId, totalAmount, _selectedMovie.Title);
-            }
-
-            // Show success message
-            MessageBox.Show("Your booking is successful!", "Booking Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Movies moviesForm = new Movies(_userId);
+            moviesForm.Show();
+            this.Close();
         }
     }
 }

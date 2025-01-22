@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RCinema-db")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+268fabba81dbaa0473382ce26a73325b5798372d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c51c0b3153b827a87a5611e9090c21cfe89a5868")]
 [assembly: System.Reflection.AssemblyProductAttribute("RCinema-db")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RCinema-db")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

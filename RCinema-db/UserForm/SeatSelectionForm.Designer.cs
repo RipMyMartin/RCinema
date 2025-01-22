@@ -7,16 +7,13 @@ namespace RCinema_db.UserForm
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-        private ComboBox comboBox_Sessions;
-        private Panel panel_Seats;
-        private Button btn_ConfirmPurchase;
-        private Label lbl_SelectedSeats;
-        private Label lbl_TotalAmount;
-        private Label lbl_Session;
-        private Label lbl_AvailableSeats;
-        private Label lbl_SessionInfo;
-
-
+        private Label lbl_Title;
+        private Label lbl_GenreDuration;
+        private Label lbl_ReleaseDate;
+        private TextBox txt_Description;
+        private PictureBox pic_Poster;
+        private Button btn_SelectSeats;
+        private FlowLayoutPanel flow_SeatGrid;
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
@@ -33,123 +30,122 @@ namespace RCinema_db.UserForm
         #region Windows Form Designer generated code
 
         /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
+        /// Required method for Designer support - do not modify the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
-            comboBox_Sessions = new ComboBox();
-            lbl_Session = new Label();
-            panel_Seats = new Panel();
-            lbl_SelectedSeats = new Label();
-            lbl_TotalAmount = new Label();
-            btn_ConfirmPurchase = new Button();
-            lbl_SessionInfo = new Label();
-            lbl_AvailableSeats = new Label();
-            btn_Buy_Ticket = new Button();
+            lbl_Title = new Label();
+            lbl_GenreDuration = new Label();
+            lbl_ReleaseDate = new Label();
+            txt_Description = new TextBox();
+            pic_Poster = new PictureBox();
+            btn_SelectSeats = new Button();
+            flow_SeatGrid = new FlowLayoutPanel();
+            btn_BackToMovies = new Button();
+            ((System.ComponentModel.ISupportInitialize)pic_Poster).BeginInit();
             SuspendLayout();
             // 
-            // comboBox_Sessions
+            // lbl_Title
             // 
-            comboBox_Sessions.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox_Sessions.Location = new Point(50, 50);
-            comboBox_Sessions.Name = "comboBox_Sessions";
-            comboBox_Sessions.Size = new Size(200, 23);
-            comboBox_Sessions.TabIndex = 0;
-            comboBox_Sessions.SelectedIndexChanged += ComboBox_Sessions_SelectedIndexChanged;
+            lbl_Title.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            lbl_Title.Location = new Point(38, 81);
+            lbl_Title.Name = "lbl_Title";
+            lbl_Title.Size = new Size(400, 40);
+            lbl_Title.TabIndex = 0;
+            lbl_Title.Text = "Movie Title";
             // 
-            // lbl_Session
+            // lbl_GenreDuration
             // 
-            lbl_Session.Location = new Point(50, 20);
-            lbl_Session.Name = "lbl_Session";
-            lbl_Session.Size = new Size(200, 20);
-            lbl_Session.TabIndex = 1;
-            lbl_Session.Text = "Select a session:";
+            lbl_GenreDuration.Font = new Font("Segoe UI", 12F);
+            lbl_GenreDuration.Location = new Point(38, 131);
+            lbl_GenreDuration.Name = "lbl_GenreDuration";
+            lbl_GenreDuration.Size = new Size(400, 30);
+            lbl_GenreDuration.TabIndex = 1;
+            lbl_GenreDuration.Text = "Genre, Duration";
             // 
-            // panel_Seats
+            // lbl_ReleaseDate
             // 
-            panel_Seats.AutoScroll = true;
-            panel_Seats.Location = new Point(50, 100);
-            panel_Seats.Name = "panel_Seats";
-            panel_Seats.Size = new Size(700, 300);
-            panel_Seats.TabIndex = 2;
+            lbl_ReleaseDate.Font = new Font("Segoe UI", 12F);
+            lbl_ReleaseDate.Location = new Point(38, 171);
+            lbl_ReleaseDate.Name = "lbl_ReleaseDate";
+            lbl_ReleaseDate.Size = new Size(400, 30);
+            lbl_ReleaseDate.TabIndex = 2;
+            lbl_ReleaseDate.Text = "Release Date";
             // 
-            // lbl_SelectedSeats
+            // txt_Description
             // 
-            lbl_SelectedSeats.Location = new Point(50, 420);
-            lbl_SelectedSeats.Name = "lbl_SelectedSeats";
-            lbl_SelectedSeats.Size = new Size(400, 20);
-            lbl_SelectedSeats.TabIndex = 3;
-            lbl_SelectedSeats.Text = "Selected Seats: ";
+            txt_Description.Font = new Font("Segoe UI", 10F);
+            txt_Description.Location = new Point(38, 211);
+            txt_Description.Multiline = true;
+            txt_Description.Name = "txt_Description";
+            txt_Description.ReadOnly = true;
+            txt_Description.Size = new Size(400, 200);
+            txt_Description.TabIndex = 3;
+            txt_Description.Text = "Description of the movie...";
             // 
-            // lbl_TotalAmount
+            // pic_Poster
             // 
-            lbl_TotalAmount.Location = new Point(500, 420);
-            lbl_TotalAmount.Name = "lbl_TotalAmount";
-            lbl_TotalAmount.Size = new Size(200, 20);
-            lbl_TotalAmount.TabIndex = 4;
-            lbl_TotalAmount.Text = "Total: $0.00";
+            pic_Poster.Location = new Point(468, 81);
+            pic_Poster.Name = "pic_Poster";
+            pic_Poster.Size = new Size(200, 300);
+            pic_Poster.SizeMode = PictureBoxSizeMode.StretchImage;
+            pic_Poster.TabIndex = 4;
+            pic_Poster.TabStop = false;
             // 
-            // btn_ConfirmPurchase
+            // btn_SelectSeats
             // 
-            btn_ConfirmPurchase.Location = new Point(600, 460);
-            btn_ConfirmPurchase.Name = "btn_ConfirmPurchase";
-            btn_ConfirmPurchase.Size = new Size(150, 40);
-            btn_ConfirmPurchase.TabIndex = 5;
-            btn_ConfirmPurchase.Text = "Confirm Purchase";
-            btn_ConfirmPurchase.Click += Btn_ConfirmPurchase_Click;
+            btn_SelectSeats.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            btn_SelectSeats.Location = new Point(468, 401);
+            btn_SelectSeats.Name = "btn_SelectSeats";
+            btn_SelectSeats.Size = new Size(200, 50);
+            btn_SelectSeats.TabIndex = 6;
+            btn_SelectSeats.Text = "Select Seats";
+            btn_SelectSeats.Click += btn_Book_Click;
             // 
-            // lbl_SessionInfo
+            // flow_SeatGrid
             // 
-            lbl_SessionInfo.Location = new Point(300, 38);
-            lbl_SessionInfo.Name = "lbl_SessionInfo";
-            lbl_SessionInfo.Size = new Size(400, 20);
-            lbl_SessionInfo.TabIndex = 6;
-            lbl_SessionInfo.Text = "Selected Session: ";
+            flow_SeatGrid.AutoScroll = true;
+            flow_SeatGrid.FlowDirection = FlowDirection.TopDown;
+            flow_SeatGrid.Location = new Point(724, 121);
+            flow_SeatGrid.Name = "flow_SeatGrid";
+            flow_SeatGrid.Size = new Size(301, 250);
+            flow_SeatGrid.TabIndex = 5;
+            flow_SeatGrid.WrapContents = false;
             // 
-            // lbl_AvailableSeats
+            // btn_BackToMovies
             // 
-            lbl_AvailableSeats.Location = new Point(300, 58);
-            lbl_AvailableSeats.Name = "lbl_AvailableSeats";
-            lbl_AvailableSeats.Size = new Size(400, 20);
-            lbl_AvailableSeats.TabIndex = 7;
-            lbl_AvailableSeats.Text = "Available Seats: ";
-            // 
-            // btn_Buy_Ticket
-            // 
-            btn_Buy_Ticket.BackColor = Color.Firebrick;
-            btn_Buy_Ticket.Cursor = Cursors.Hand;
-            btn_Buy_Ticket.ForeColor = Color.White;
-            btn_Buy_Ticket.Location = new Point(617, 415);
-            btn_Buy_Ticket.Name = "btn_Buy_Ticket";
-            btn_Buy_Ticket.Size = new Size(133, 23);
-            btn_Buy_Ticket.TabIndex = 20;
-            btn_Buy_Ticket.Text = "BUY";
-            btn_Buy_Ticket.TextImageRelation = TextImageRelation.TextBeforeImage;
-            btn_Buy_Ticket.UseVisualStyleBackColor = false;
-            btn_Buy_Ticket.Click += btn_Buy_Ticket_Click;
+            btn_BackToMovies.BackColor = Color.Firebrick;
+            btn_BackToMovies.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+            btn_BackToMovies.ForeColor = Color.White;
+            btn_BackToMovies.Location = new Point(38, 26);
+            btn_BackToMovies.Name = "btn_BackToMovies";
+            btn_BackToMovies.Size = new Size(106, 40);
+            btn_BackToMovies.TabIndex = 40;
+            btn_BackToMovies.Text = "Go Back";
+            btn_BackToMovies.UseVisualStyleBackColor = false;
+            btn_BackToMovies.Click += btn_BackToMovies_Click_1;
             // 
             // SeatSelectionForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
-            Controls.Add(btn_Buy_Ticket);
-            Controls.Add(comboBox_Sessions);
-            Controls.Add(lbl_Session);
-            Controls.Add(panel_Seats);
-            Controls.Add(lbl_SelectedSeats);
-            Controls.Add(lbl_TotalAmount);
-            Controls.Add(btn_ConfirmPurchase);
-            Controls.Add(lbl_SessionInfo);
-            Controls.Add(lbl_AvailableSeats);
+            ClientSize = new Size(1082, 462);
+            Controls.Add(btn_BackToMovies);
+            Controls.Add(lbl_Title);
+            Controls.Add(lbl_GenreDuration);
+            Controls.Add(lbl_ReleaseDate);
+            Controls.Add(txt_Description);
+            Controls.Add(pic_Poster);
+            Controls.Add(flow_SeatGrid);
+            Controls.Add(btn_SelectSeats);
             Name = "SeatSelectionForm";
-            Text = "SeatSelectionForm";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Seat Selection";
+            ((System.ComponentModel.ISupportInitialize)pic_Poster).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
-        private Button btn_Buy_Ticket;
+        private Button btn_BackToMovies;
     }
 }
