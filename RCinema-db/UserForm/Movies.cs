@@ -103,17 +103,21 @@ namespace RCinema_db.User
                 lbl_Movie_Release_Date.Text = $"Released on {selectedMovie.ReleaseDate:dd MMM yyyy}";
                 txt_Movie_Description.Text = selectedMovie.Description;
 
-                string moviePoster = selectedMovie.Poster;
+                int movieId = selectedMovie.Id;  // Получаем movieId
+                string moviePoster = $"{movieId}.png";
 
                 try
                 {
-                    if (!string.IsNullOrEmpty(moviePoster))
+                    string basePath = @"C:\YourImageDirectory\"; // Укажите базовый путь к папке с изображениями
+                    string fullPath = Path.Combine(basePath, moviePoster);
+
+                    if (File.Exists(fullPath)) // Проверяем, существует ли файл
                     {
-                        picbox_Movie_Poster.Image = Image.FromFile(moviePoster);
+                        picbox_Movie_Poster.Image = Image.FromFile(fullPath);
                     }
                     else
                     {
-                        picbox_Movie_Poster.Image = null; // Clear the image if no poster
+                        picbox_Movie_Poster.Image = null; // Если файл не существует, очищаем картинку
                     }
                 }
                 catch (Exception ex)

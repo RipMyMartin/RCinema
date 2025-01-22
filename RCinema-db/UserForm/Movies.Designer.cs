@@ -63,6 +63,7 @@
             btn_UserProfile.TabIndex = 35;
             btn_UserProfile.Text = "Profile";
             btn_UserProfile.UseVisualStyleBackColor = true;
+            btn_UserProfile.Visible = false;
             btn_UserProfile.Click += btn_UserProfile_Click_2;
             // 
             // btn_Log_Out
@@ -121,7 +122,7 @@
             // 
             // picbox_Movie_Poster
             // 
-            picbox_Movie_Poster.Location = new Point(275, 111);
+            picbox_Movie_Poster.Location = new Point(279, 111);
             picbox_Movie_Poster.MaximumSize = new Size(150, 200);
             picbox_Movie_Poster.Name = "picbox_Movie_Poster";
             picbox_Movie_Poster.Size = new Size(150, 200);

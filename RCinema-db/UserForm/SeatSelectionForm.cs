@@ -134,7 +134,7 @@ namespace RCinema_db.UserForm
                 if (clickedButton.BackColor == Color.Red)
                 {
                     MessageBox.Show("This seat has already been booked.");
-                    return; // Возвращаемся, чтобы не менять цвет
+                    return; 
                 }
 
                 // Если место свободно (зеленое), выбираем его
@@ -180,7 +180,6 @@ namespace RCinema_db.UserForm
 
                     if (reader.HasRows)
                     {
-                        MessageBox.Show("One or more of the selected seats have already been booked. Please choose other seats.");
                         return; // Если хотя бы одно место занято, прерываем бронирование
                     }
                 }
@@ -226,8 +225,11 @@ namespace RCinema_db.UserForm
                         }
                     }
 
-                    // Сообщение об успешном бронировании
                     MessageBox.Show("Booking successful!");
+
+                    EmailForm emailForm = new EmailForm(_selectedMovie.Title, seats, selectedSeats.Count, selectedSeats.Count * 10.0m);
+                    emailForm.Show();
+                    this.Close();
                 }
             }
             else
