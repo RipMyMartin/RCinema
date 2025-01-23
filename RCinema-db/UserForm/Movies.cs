@@ -44,6 +44,14 @@ namespace RCinema_db.User
                         {
                             while (reader.Read())
                             {
+                                string posterPath = reader.IsDBNull(9) ? null : reader.GetString(9);
+                                byte[] posterBytes = null;
+
+                                if (!string.IsNullOrEmpty(posterPath) && File.Exists(posterPath))
+                                {
+                                    posterBytes = File.ReadAllBytes(posterPath); // Загружаем изображение как байтовый массив
+                                }
+
                                 Movie movie = new Movie(
                                     reader.GetInt32(0),
                                     reader.GetString(1),
@@ -54,7 +62,7 @@ namespace RCinema_db.User
                                     reader.GetInt32(6),
                                     reader.GetInt32(7),
                                     reader.IsDBNull(8) ? "No description available." : reader.GetString(8),
-                                    reader.IsDBNull(9) ? null : reader.GetString(9)
+                                    posterBytes  // передаем как байтовый массив
                                 );
                                 movies.Add(movie);
                             }

@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            textBox_Poster = new TextBox();
             label12 = new Label();
             label11 = new Label();
             label10 = new Label();
@@ -53,15 +52,10 @@
             button1 = new Button();
             movieGrid = new DataGridView();
             label8 = new Label();
+            button2 = new Button();
+            openFileDialog1 = new OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)movieGrid).BeginInit();
             SuspendLayout();
-            // 
-            // textBox_Poster
-            // 
-            textBox_Poster.Location = new Point(551, 116);
-            textBox_Poster.Name = "textBox_Poster";
-            textBox_Poster.Size = new Size(165, 23);
-            textBox_Poster.TabIndex = 72;
             // 
             // label12
             // 
@@ -298,12 +292,26 @@
             label8.TabIndex = 48;
             label8.Text = "Manage Movies";
             // 
+            // button2
+            // 
+            button2.Location = new Point(555, 116);
+            button2.Name = "button2";
+            button2.Size = new Size(75, 23);
+            button2.TabIndex = 72;
+            button2.Text = "File";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
+            // openFileDialog1
+            // 
+            openFileDialog1.FileName = "openFileDialog1";
+            // 
             // UpdateMovie
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(textBox_Poster);
+            Controls.Add(button2);
             Controls.Add(label12);
             Controls.Add(label11);
             Controls.Add(label10);
@@ -336,8 +344,6 @@
         }
 
         #endregion
-
-        private TextBox textBox_Poster;
         private Label label12;
         private Label label11;
         private Label label10;
@@ -362,5 +368,7 @@
         private Button button1;
         private DataGridView movieGrid;
         private Label label8;
+        private Button button2;
+        private OpenFileDialog openFileDialog1;
     }
 }
