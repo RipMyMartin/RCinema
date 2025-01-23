@@ -162,19 +162,20 @@ namespace RCinema_db.UserForm
             {
                 string seats = string.Join(",", selectedSeats);
 
-                string checkSeatsQuery = "SELECT SeatRow, SeatColumn FROM Seats WHERE MovieId = @MovieId AND IsBooked = 1 AND SeatRow + '-' + SeatColumn IN (@Seats)";
+                string checkSeatsQuery = "SELECT seatsBooked FROM Bookings WHERE MovieId = @MovieId AND seatsBooked LIKE @Seats";
                 using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     SqlCommand checkSeatsCommand = new SqlCommand(checkSeatsQuery, connection);
                     checkSeatsCommand.Parameters.AddWithValue("@MovieId", _selectedMovie.Id);
-                    checkSeatsCommand.Parameters.AddWithValue("@Seats", string.Join(",", selectedSeats)); 
+                    checkSeatsCommand.Parameters.AddWithValue("@Seats", "%" + string.Join(",", selectedSeats) + "%");
 
                     connection.Open();
                     SqlDataReader reader = checkSeatsCommand.ExecuteReader();
 
                     if (reader.HasRows)
                     {
-                        return; 
+                        MessageBox.Show("Some of the selected seats are already booked.");
+                        return;
                     }
                 }
 

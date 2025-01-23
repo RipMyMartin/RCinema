@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using RCinema_db.User;
 
 namespace RCinema_db.UserForm
 {
@@ -36,13 +37,9 @@ namespace RCinema_db.UserForm
 
             try
             {
-                // Генерация PDF
                 string pdfPath = GeneratePdf();
 
-                // Отправка письма
                 SendEmail(email, pdfPath);
-
-                MessageBox.Show("Email sent successfully!");
                 this.Close();
             }
             catch (Exception ex)

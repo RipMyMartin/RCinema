@@ -7070,11 +7070,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ripmy\\Source\\Repos\\RCinema\\RCinema-db\\RCinema-db.csproj",
+      "projectUniqueName": "C:\\Users\\ripmy\\Source\\Repos\\RCinema12\\RCinema-db\\RCinema-db.csproj",
       "projectName": "RCinema-db",
-      "projectPath": "C:\\Users\\ripmy\\Source\\Repos\\RCinema\\RCinema-db\\RCinema-db.csproj",
+      "projectPath": "C:\\Users\\ripmy\\Source\\Repos\\RCinema12\\RCinema-db\\RCinema-db.csproj",
       "packagesPath": "C:\\Users\\ripmy\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ripmy\\Source\\Repos\\RCinema\\RCinema-db\\obj\\",
+      "outputPath": "C:\\Users\\ripmy\\Source\\Repos\\RCinema12\\RCinema-db\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

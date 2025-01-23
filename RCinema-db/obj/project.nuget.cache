@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "eITKK2mQCaw=",
+  "dgSpecHash": "0wDOqMPzujY=",
   "success": true,
-  "projectFilePath": "C:\\Users\\ripmy\\Source\\Repos\\RCinema\\RCinema-db\\RCinema-db.csproj",
+  "projectFilePath": "C:\\Users\\ripmy\\Source\\Repos\\RCinema12\\RCinema-db\\RCinema-db.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ripmy\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\ripmy\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
