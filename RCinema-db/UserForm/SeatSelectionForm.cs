@@ -54,7 +54,6 @@ namespace RCinema_db.UserForm
         {
             seatButtons = new Button[Rows, Columns];
 
-            // Set FlowLayoutPanel properties to arrange the buttons in a grid-like pattern
             flow_SeatGrid.FlowDirection = FlowDirection.TopDown;
             flow_SeatGrid.WrapContents = true;
 
@@ -94,12 +93,10 @@ namespace RCinema_db.UserForm
 
                 while (reader.Read())
                 {
-                    // Получаем забронированные места как строку (например, "A1, A2, B3")
                     string seats = reader.GetString(0);
                     bookedSeats.AddRange(seats.Split(','));
                 }
 
-                // Пройдем по всем кнопкам и проверим, заняты ли они
                 for (int row = 0; row < Rows; row++)
                 {
                     for (int col = 0; col < Columns; col++)
@@ -108,12 +105,12 @@ namespace RCinema_db.UserForm
 
                         if (bookedSeats.Contains(seatName))
                         {
-                            seatButtons[row, col].BackColor = Color.Red; // Место занято
-                            seatButtons[row, col].Enabled = false; // Сделать кнопку неактивной
+                            seatButtons[row, col].BackColor = Color.Red; 
+                            seatButtons[row, col].Enabled = false;
                         }
                         else
                         {
-                            seatButtons[row, col].BackColor = Color.LightGreen; // Место свободно
+                            seatButtons[row, col].BackColor = Color.LightGreen;
                             seatButtons[row, col].Enabled = true;
                         }
                     }
@@ -130,21 +127,19 @@ namespace RCinema_db.UserForm
                 int row = position.Row;
                 int column = position.Column;
 
-                // Если место уже забронировано (красное), то не даем его выбрать
                 if (clickedButton.BackColor == Color.Red)
                 {
                     MessageBox.Show("This seat has already been booked.");
                     return; 
                 }
 
-                // Если место свободно (зеленое), выбираем его
                 if (clickedButton.BackColor == Color.LightGreen)
                 {
-                    clickedButton.BackColor = Color.Yellow; // Выбираем место
+                    clickedButton.BackColor = Color.Yellow; 
                 }
                 else if (clickedButton.BackColor == Color.Yellow)
                 {
-                    clickedButton.BackColor = Color.LightGreen; // Отменяем выбор
+                    clickedButton.BackColor = Color.LightGreen; 
                 }
             }
         }
@@ -156,7 +151,7 @@ namespace RCinema_db.UserForm
             {
                 for (int col = 0; col < Columns; col++)
                 {
-                    if (seatButtons[row, col].BackColor == Color.Yellow)  // Yellow for selected seats
+                    if (seatButtons[row, col].BackColor == Color.Yellow)  
                     {
                         selectedSeats.Add($"{(char)(row + 'A')}{col}");
                     }
@@ -167,24 +162,22 @@ namespace RCinema_db.UserForm
             {
                 string seats = string.Join(",", selectedSeats);
 
-                // Проверка, не забронировано ли уже место в базе данных
                 string checkSeatsQuery = "SELECT SeatRow, SeatColumn FROM Seats WHERE MovieId = @MovieId AND IsBooked = 1 AND SeatRow + '-' + SeatColumn IN (@Seats)";
                 using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     SqlCommand checkSeatsCommand = new SqlCommand(checkSeatsQuery, connection);
                     checkSeatsCommand.Parameters.AddWithValue("@MovieId", _selectedMovie.Id);
-                    checkSeatsCommand.Parameters.AddWithValue("@Seats", string.Join(",", selectedSeats));  // Проверка выбранных мест
+                    checkSeatsCommand.Parameters.AddWithValue("@Seats", string.Join(",", selectedSeats)); 
 
                     connection.Open();
                     SqlDataReader reader = checkSeatsCommand.ExecuteReader();
 
                     if (reader.HasRows)
                     {
-                        return; // Если хотя бы одно место занято, прерываем бронирование
+                        return; 
                     }
                 }
 
-                // Если все места свободны, продолжаем бронирование
                 string query = "INSERT INTO Bookings (session, numberOfTickets, seatsBooked, subtotal, ticketType, userID, MovieId) " +
                                "VALUES (@Session, @Tickets, @Seats, @Subtotal, @Type, @UserId, @MovieId);";
 
@@ -195,20 +188,18 @@ namespace RCinema_db.UserForm
                     command.Parameters.AddWithValue("@Session", DateTime.Now);
                     command.Parameters.AddWithValue("@Tickets", selectedSeats.Count);
                     command.Parameters.AddWithValue("@Seats", seats);
-                    command.Parameters.AddWithValue("@Subtotal", selectedSeats.Count * 10.0m);  // Assuming $10 per ticket
+                    command.Parameters.AddWithValue("@Subtotal", selectedSeats.Count * 10.0m);  
                     command.Parameters.AddWithValue("@Type", "Standard");
                     command.Parameters.AddWithValue("@UserId", _userId);
-                    command.Parameters.AddWithValue("@MovieId", _selectedMovie.Id);  // Добавлен MovieId
+                    command.Parameters.AddWithValue("@MovieId", _selectedMovie.Id);  
 
                     connection.Open();
 
-                    // Выполнение команды на добавление в таблицу Bookings
                     command.ExecuteNonQuery();
 
-                    // Обновление статуса занятых мест в таблице Seats
                     foreach (var seat in selectedSeats)
                     {
-                        var seatParts = seat.Split('-'); // Разделяем строку на два элемента: ряд и колонка
+                        var seatParts = seat.Split('-'); 
                         if (seatParts.Length == 2)
                         {
                             string row = seatParts[0];
@@ -217,7 +208,7 @@ namespace RCinema_db.UserForm
                             // Обновление статуса занятости места
                             string updateSeatQuery = "UPDATE Seats SET IsBooked = 1 WHERE MovieId = @MovieId AND SeatRow = @Row AND SeatColumn = @Column";
                             SqlCommand updateSeatCommand = new SqlCommand(updateSeatQuery, connection);
-                            updateSeatCommand.Parameters.AddWithValue("@MovieId", _selectedMovie.Id); // Передаем MovieId
+                            updateSeatCommand.Parameters.AddWithValue("@MovieId", _selectedMovie.Id);
                             updateSeatCommand.Parameters.AddWithValue("@Row", row);
                             updateSeatCommand.Parameters.AddWithValue("@Column", column);
 

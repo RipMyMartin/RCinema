@@ -26,17 +26,14 @@ namespace RCinema_db.Admin
             _userId = userId;
         }
 
-        // Load movies from the database into the DataGridView
         private void LoadMovies()
         {
             List<Movie> movies = GetMoviesFromDatabase();
             movieGrid.DataSource = movies;
         }
 
-        // Get movies from the database
         private List<Movie> GetMoviesFromDatabase()
         {
-            // Declare the movies list only once
             List<Movie> movies = new List<Movie>();
             string query = "SELECT id, title, genre, hours, minutes, year, month, day, description, poster FROM Movies";
 
@@ -46,29 +43,28 @@ namespace RCinema_db.Admin
                 SqlCommand cmd = new SqlCommand(query, conn);
                 SqlDataReader reader = cmd.ExecuteReader();
 
-                // Use the already declared 'movies' list (no need to redeclare it)
 
                 while (reader.Read())
                 {
-                    int movieID = reader.GetInt32(0); // Assuming the first column is movieID
+                    int movieID = reader.GetInt32(0); 
                     Movie movie = new Movie(
-                        movieID,                               // Pass movieID to the constructor
-                        reader.GetString(1),                   // Title
-                        reader.GetString(2),                   // Genre
-                        reader.GetInt32(3),                    // Hours
-                        reader.GetInt32(4),                    // Minutes
-                        reader.GetInt32(5),                    // Year
-                        reader.GetInt32(6),                    // Month
-                        reader.GetInt32(7),                    // Day
-                        reader.GetString(8),                   // Description
-                        reader.GetString(9)                    // Poster
+                        movieID,                               
+                        reader.GetString(1),                   
+                        reader.GetString(2),                   
+                        reader.GetInt32(3),                    
+                        reader.GetInt32(4),                    
+                        reader.GetInt32(5),                    
+                        reader.GetInt32(6),                   
+                        reader.GetInt32(7),                   
+                        reader.GetString(8),                  
+                        reader.GetString(9)                    
                     );
 
-                    movies.Add(movie);  // Add the movie to the list
+                    movies.Add(movie);  
                 }
             }
 
-            return movies;  // Return the list of movies
+            return movies;  
         }
 
         private void Form_UpdateMovie_Load(object sender, EventArgs e)
@@ -86,7 +82,6 @@ namespace RCinema_db.Admin
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@MovieId", movieId);
 
-                // Debugging: Output the SQL query and movieId being searched
                 Console.WriteLine("Executing SQL Query: " + query);
                 Console.WriteLine("Searching for movie ID: " + movieId);
 
@@ -110,7 +105,6 @@ namespace RCinema_db.Admin
                 }
                 else
                 {
-                    // Debugging: Output if no movie is found
                     Console.WriteLine("Movie with ID " + movieId + " not found.");
                 }
             }
@@ -166,7 +160,6 @@ namespace RCinema_db.Admin
 
         private bool ValidateMovieData(string title, string genre, int hours, int minutes, DateTime releaseDate, string description, string poster)
         {
-            // Add validation logic here
             if (string.IsNullOrWhiteSpace(title) || string.IsNullOrWhiteSpace(genre))
             {
                 MessageBox.Show("Please provide all required fields.");
@@ -198,13 +191,11 @@ namespace RCinema_db.Admin
 
             if (!ValidateMovieData(title, genre, hours, minutes, selectedDate, description, poster))
             {
-                return; // Validation failed, no need to proceed
+                return;
             }
 
-            // Insert new movie into the database
             InsertNewMovieIntoDatabase(title, genre, hours, minutes, year, month, day, description, poster);
 
-            // Reload the movie grid after insert
             LoadMovies();
 
             MessageBox.Show("Movie added successfully.");
@@ -221,7 +212,6 @@ namespace RCinema_db.Admin
                 return;
             }
 
-            // Parse and validate the input data
             string title = textBox_Title.Text;
             string genre = textBox_Genre.Text;
             int hours = int.Parse(textBox_Hours.Text);
@@ -230,19 +220,17 @@ namespace RCinema_db.Admin
             int month = dateTimePicker_ReleaseDate.Value.Month;
             int day = dateTimePicker_ReleaseDate.Value.Day;
             string description = textBox_Description.Text;
-            string poster = textBox_Poster.Text;
+            string poster = textBox_Poster.Text; 
 
             DateTime selectedDate = new DateTime(year, month, day);
 
             if (!ValidateMovieData(title, genre, hours, minutes, selectedDate, description, poster))
             {
-                return; // Validation failed, no need to proceed
+                return; 
             }
 
-            // Update movie properties in the database
             UpdateMovieInDatabase(movieId, title, genre, hours, minutes, year, month, day, description, poster);
 
-            // Reload the movie grid after update
             LoadMovies();
 
             MessageBox.Show("Movie data updated successfully.");
@@ -292,7 +280,6 @@ namespace RCinema_db.Admin
                 {
                     conn.Open();
 
-                    // Check if there are associated sessions
                     using (SqlCommand checkCmd = new SqlCommand(checkSessionsQuery, conn))
                     {
                         checkCmd.Parameters.AddWithValue("@MovieId", movieId);
@@ -305,12 +292,10 @@ namespace RCinema_db.Admin
                         }
                     }
 
-                    // Confirm deletion
                     DialogResult result = MessageBox.Show("Are you sure you want to delete this movie?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                     if (result == DialogResult.Yes)
                     {
-                        // Delete the movie
                         using (SqlCommand deleteCmd = new SqlCommand(deleteMovieQuery, conn))
                         {
                             deleteCmd.Parameters.AddWithValue("@MovieId", movieId);
@@ -319,7 +304,7 @@ namespace RCinema_db.Admin
                             if (rowsAffected > 0)
                             {
                                 MessageBox.Show("Movie deleted successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                LoadMovies(); // Reload the movie grid
+                                LoadMovies(); 
                             }
                             else
                             {
@@ -335,5 +320,27 @@ namespace RCinema_db.Admin
             }
         }
 
+        private void Button_openFileDialog_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif";
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string fullFilePath = openFileDialog1.FileName;
+                string imagesDirectory = Path.Combine(Application.StartupPath, @"..\..\..\Images\CinemaImage");
+
+                if (!Directory.Exists(imagesDirectory))
+                {
+                    Directory.CreateDirectory(imagesDirectory);
+                }
+
+                string fileName = Path.GetFileName(fullFilePath);
+                string relativeImagePath = Path.Combine(imagesDirectory, fileName);
+
+                File.Copy(fullFilePath, relativeImagePath, true);
+                textBox_Poster.Text = @"..\..\..\Images\CinemaImage\" + fileName;
+            }
+        }
     }
 }

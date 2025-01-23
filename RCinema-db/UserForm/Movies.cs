@@ -104,23 +104,23 @@ namespace RCinema_db.User
                 lbl_Movie_Release_Date.Text = $"Released on {selectedMovie.ReleaseDate:dd MMM yyyy}";
                 txt_Movie_Description.Text = selectedMovie.Description;
 
-                string moviePoster = selectedMovie.Poster;  // Get the poster path or filename from the Movie object
+                string moviePoster = selectedMovie.Poster;  
 
                 try
                 {
-                    if (File.Exists(moviePoster)) // Check if the file exists using the path stored in the Poster column
+                    if (File.Exists(moviePoster))
                     {
-                        picbox_Movie_Poster.Image = Image.FromFile(moviePoster);  // Load the image from the file
+                        picbox_Movie_Poster.Image = Image.FromFile(moviePoster);  
                     }
                     else
                     {
-                        picbox_Movie_Poster.Image = DefaultImage.GetDefaultImage();  // Use default image if file doesn't exist
+                        picbox_Movie_Poster.Image = DefaultImage.GetDefaultImage();  
                     }
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine($"An error occurred while loading the poster: {ex.Message}");
-                    picbox_Movie_Poster.Image = DefaultImage.GetDefaultImage();  // Use default image in case of error
+                    picbox_Movie_Poster.Image = DefaultImage.GetDefaultImage();  
                 }
             }
         }

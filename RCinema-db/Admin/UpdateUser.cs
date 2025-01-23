@@ -83,7 +83,7 @@ namespace RCinema_db.Admin
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@UserName", textBox_Username.Text);
-                        command.Parameters.AddWithValue("@Password", textBox_Password.Text); // Ensure password hashing in production
+                        command.Parameters.AddWithValue("@Password", textBox_Password.Text); 
                         command.Parameters.AddWithValue("@FirstName", textBox_firstName.Text);
                         command.Parameters.AddWithValue("@LastName", textBox_lastName.Text);
 

@@ -18,23 +18,11 @@ namespace RCinema_db.User
 {
     public partial class UserProfile : Form
     {
-        string[] dataArray = { "Button 1", "Button 2", "Button 3", "Button 4", "Button 5" };
 
         private int _userId;
         public UserProfile(int userId)
         {
             _userId = userId;
-            foreach (string item in dataArray)
-            {
-                Button button = new Button
-                {
-                    Text = item,
-                    Width = 100,
-                    Height = 30
-                };
-
-                button.Click += Button_Click;
-            }
 
             InitializeComponent();
 
