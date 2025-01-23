@@ -192,7 +192,7 @@ namespace RCinema_db.Admin
             int month = dateTimePicker_ReleaseDate.Value.Month;
             int day = dateTimePicker_ReleaseDate.Value.Day;
             string description = textBox_Description.Text;
-            string poster = textBox_Poster.Text; // Get poster path from the textBox
+            string poster = textBox_Poster.Text;
 
             DateTime selectedDate = new DateTime(year, month, day);
 
@@ -230,7 +230,7 @@ namespace RCinema_db.Admin
             int month = dateTimePicker_ReleaseDate.Value.Month;
             int day = dateTimePicker_ReleaseDate.Value.Day;
             string description = textBox_Description.Text;
-            string poster = textBox_Poster.Text; // Get the updated poster path
+            string poster = textBox_Poster.Text;
 
             DateTime selectedDate = new DateTime(year, month, day);
 
@@ -242,6 +242,7 @@ namespace RCinema_db.Admin
             // Update movie properties in the database
             UpdateMovieInDatabase(movieId, title, genre, hours, minutes, year, month, day, description, poster);
 
+            // Reload the movie grid after update
             LoadMovies();
 
             MessageBox.Show("Movie data updated successfully.");
@@ -291,6 +292,7 @@ namespace RCinema_db.Admin
                 {
                     conn.Open();
 
+                    // Check if there are associated sessions
                     using (SqlCommand checkCmd = new SqlCommand(checkSessionsQuery, conn))
                     {
                         checkCmd.Parameters.AddWithValue("@MovieId", movieId);
@@ -303,10 +305,12 @@ namespace RCinema_db.Admin
                         }
                     }
 
+                    // Confirm deletion
                     DialogResult result = MessageBox.Show("Are you sure you want to delete this movie?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                     if (result == DialogResult.Yes)
                     {
+                        // Delete the movie
                         using (SqlCommand deleteCmd = new SqlCommand(deleteMovieQuery, conn))
                         {
                             deleteCmd.Parameters.AddWithValue("@MovieId", movieId);
@@ -315,7 +319,7 @@ namespace RCinema_db.Admin
                             if (rowsAffected > 0)
                             {
                                 MessageBox.Show("Movie deleted successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                LoadMovies(); 
+                                LoadMovies(); // Reload the movie grid
                             }
                             else
                             {
@@ -331,28 +335,5 @@ namespace RCinema_db.Admin
             }
         }
 
-        private void Button_openFileDialog_Click(object sender, EventArgs e)
-        {
-            // Открытие диалогового окна для выбора файла
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-            openFileDialog1.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif";
-
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                string fullFilePath = openFileDialog1.FileName;
-                string imagesDirectory = Path.Combine(Application.StartupPath, @"..\..\..\Images\CinemaImage");
-
-                if (!Directory.Exists(imagesDirectory))
-                {
-                    Directory.CreateDirectory(imagesDirectory);
-                }
-
-                string fileName = Path.GetFileName(fullFilePath);
-                string relativeImagePath = Path.Combine(imagesDirectory, fileName);
-
-                File.Copy(fullFilePath, relativeImagePath, true);
-                textBox_Poster.Text = @"..\..\..\Images\CinemaImage\" + fileName;
-            }
-        }
     }
 }

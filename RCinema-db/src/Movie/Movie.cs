@@ -1,4 +1,8 @@
 ﻿using MovieTicketApp.src.Managers;
+using MovieTicketApp;
+using Microsoft.VisualBasic.Devices;
+using RCinema_db.src.MovieSession;
+using RCinema_db.src.Movie;
 
 namespace RCinema_db.src.Movie
 {
@@ -13,14 +17,13 @@ namespace RCinema_db.src.Movie
         public int Month { get; set; }
         public int Day { get; set; }
         public string Description { get; set; }
-        public byte[] Poster { get; set; }  // Изменили на byte[] для хранения изображения
+        public string Poster { get; set; }
 
         public Duration Duration { get; set; }
         public DateTime ReleaseDate { get; set; }
         public List<MovieSession.MovieSession> Sessions = new List<MovieSession.MovieSession>();
 
-        // Обновленный конструктор
-        public Movie(int movieID, string title, string genre, int hours, int minutes, int year, int month, int day, string description, byte[] poster)
+        public Movie(int movieID, string title, string genre, int hours, int minutes, int year, int month, int day, string description, string poster)
         {
             this.Id = movieID;
             this.Title = title;
@@ -38,8 +41,7 @@ namespace RCinema_db.src.Movie
             LoadSessionsFromFile("sessions.txt");
         }
 
-        // Метод для создания нового фильма
-        public static Movie CreateNewMovie(string title, string genre, int hours, int minutes, int year, int month, int day, string description, byte[] poster)
+        public static Movie CreateNewMovie(string title, string genre, int hours, int minutes, int year, int month, int day, string description, string poster)
         {
             int newMovieId = GenerateNewMovieId();
             Movie movie = new Movie(newMovieId, title, genre, hours, minutes, year, month, day, description, poster);
@@ -47,14 +49,12 @@ namespace RCinema_db.src.Movie
             return movie;
         }
 
-        // Генерация нового ID фильма
         private static int GenerateNewMovieId()
         {
             int maxId = GlobalData.Movies.Max(m => m.Id);
             return maxId + 1;
         }
 
-        // Загрузка сессий из файла
         public void LoadSessionsFromFile(string sessionsFilePath)
         {
             if (File.Exists(sessionsFilePath))
@@ -63,7 +63,7 @@ namespace RCinema_db.src.Movie
 
                 foreach (string line in sessionLines)
                 {
-                    string[] parts = line.Split(',');
+                    string[] parts = line.Split(','); 
 
                     if (parts.Length == 3)
                     {
@@ -81,18 +81,15 @@ namespace RCinema_db.src.Movie
             }
         }
 
-        // Добавление новой сессии
         public void AddSession(int movieID, DateTime date, int availableSeats)
         {
             MovieSession.MovieSession session = new MovieSession.MovieSession(movieID, date, availableSeats);
             this.Sessions.Add(session);
         }
 
-        // Переопределение ToString для вывода информации о фильме
         public override string ToString()
         {
-            return $"Movie: {this.Title}, Genre: {this.Genre}, Duration: {this.Hours}:{this.Minutes}, Description: {this.Description}, Poster: {this.Poster}";
+            return $"Movie: {this.Title}, Genre: {this.Genre}, Duration: {this.Hours}:{this.Minutes}, Description: {this.Description}";
         }
-
     }
 }

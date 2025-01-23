@@ -37,17 +37,17 @@ namespace RCinema_db.UserForm
             lbl_ReleaseDate.Text = $"Released on {_selectedMovie.ReleaseDate:dd MMM yyyy}";
             txt_Description.Text = _selectedMovie.Description;
 
-            //if (!string.IsNullOrEmpty(_selectedMovie.Poster))
-            //{
-            //    try
-            //    {
-            //       // pic_Poster.Image = Image.FromFile(_selectedMovie.Poster);
-            //    }
-            //    catch
-            //    {
-            //        pic_Poster.Image = null;
-            //    }
-            //}
+            if (!string.IsNullOrEmpty(_selectedMovie.Poster))
+            {
+                try
+                {
+                    pic_Poster.Image = Image.FromFile(_selectedMovie.Poster);
+                }
+                catch
+                {
+                    pic_Poster.Image = null;
+                }
+            }
         }
 
         private void CreateSeatGrid()

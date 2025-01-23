@@ -36,8 +36,13 @@ namespace RCinema_db.UserForm
 
             try
             {
+                // Генерация PDF
                 string pdfPath = GeneratePdf();
+
+                // Отправка письма
                 SendEmail(email, pdfPath);
+
+                MessageBox.Show("Email sent successfully!");
                 this.Close();
             }
             catch (Exception ex)

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            textBox_Poster = new TextBox();
             label12 = new Label();
             label11 = new Label();
             label10 = new Label();
@@ -52,11 +53,15 @@
             button1 = new Button();
             movieGrid = new DataGridView();
             label8 = new Label();
-            Button_openFileDialog = new Button();
-            openFileDialog1 = new OpenFileDialog();
-            textBox_Poster = new TextBox();
             ((System.ComponentModel.ISupportInitialize)movieGrid).BeginInit();
             SuspendLayout();
+            // 
+            // textBox_Poster
+            // 
+            textBox_Poster.Location = new Point(551, 116);
+            textBox_Poster.Name = "textBox_Poster";
+            textBox_Poster.Size = new Size(165, 23);
+            textBox_Poster.TabIndex = 72;
             // 
             // label12
             // 
@@ -71,7 +76,7 @@
             // 
             label11.AutoSize = true;
             label11.CausesValidation = false;
-            label11.Location = new Point(126, 152);
+            label11.Location = new Point(123, 147);
             label11.Name = "label11";
             label11.Size = new Size(85, 15);
             label11.TabIndex = 70;
@@ -89,7 +94,7 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(384, 183);
+            label9.Location = new Point(384, 171);
             label9.Name = "label9";
             label9.Size = new Size(73, 15);
             label9.TabIndex = 68;
@@ -97,7 +102,7 @@
             // 
             // dateTimePicker_ReleaseDate
             // 
-            dateTimePicker_ReleaseDate.Location = new Point(459, 179);
+            dateTimePicker_ReleaseDate.Location = new Point(459, 167);
             dateTimePicker_ReleaseDate.MaxDate = new DateTime(2030, 12, 31, 0, 0, 0, 0);
             dateTimePicker_ReleaseDate.Name = "dateTimePicker_ReleaseDate";
             dateTimePicker_ReleaseDate.Size = new Size(200, 23);
@@ -106,7 +111,7 @@
             // 
             // textBox_Minutes
             // 
-            textBox_Minutes.Location = new Point(286, 180);
+            textBox_Minutes.Location = new Point(286, 168);
             textBox_Minutes.Name = "textBox_Minutes";
             textBox_Minutes.Size = new Size(47, 23);
             textBox_Minutes.TabIndex = 66;
@@ -116,7 +121,7 @@
             btn_DeleteMovie.BackColor = Color.Firebrick;
             btn_DeleteMovie.Cursor = Cursors.Hand;
             btn_DeleteMovie.ForeColor = Color.White;
-            btn_DeleteMovie.Location = new Point(471, 217);
+            btn_DeleteMovie.Location = new Point(471, 205);
             btn_DeleteMovie.Name = "btn_DeleteMovie";
             btn_DeleteMovie.Size = new Size(140, 23);
             btn_DeleteMovie.TabIndex = 65;
@@ -149,7 +154,7 @@
             btn_CreateMovie.BackColor = Color.Firebrick;
             btn_CreateMovie.Cursor = Cursors.Hand;
             btn_CreateMovie.ForeColor = Color.White;
-            btn_CreateMovie.Location = new Point(160, 217);
+            btn_CreateMovie.Location = new Point(160, 205);
             btn_CreateMovie.Name = "btn_CreateMovie";
             btn_CreateMovie.Size = new Size(114, 23);
             btn_CreateMovie.TabIndex = 62;
@@ -174,7 +179,7 @@
             // 
             // textBox_Hours
             // 
-            textBox_Hours.Location = new Point(168, 179);
+            textBox_Hours.Location = new Point(168, 167);
             textBox_Hours.Name = "textBox_Hours";
             textBox_Hours.Size = new Size(47, 23);
             textBox_Hours.TabIndex = 59;
@@ -198,7 +203,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(233, 184);
+            label5.Location = new Point(233, 172);
             label5.Name = "label5";
             label5.Size = new Size(50, 15);
             label5.TabIndex = 56;
@@ -216,7 +221,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(126, 184);
+            label3.Location = new Point(126, 172);
             label3.Name = "label3";
             label3.Size = new Size(39, 15);
             label3.TabIndex = 54;
@@ -246,7 +251,7 @@
             btn_UpdateMovie.BackColor = Color.Firebrick;
             btn_UpdateMovie.Cursor = Cursors.Hand;
             btn_UpdateMovie.ForeColor = Color.White;
-            btn_UpdateMovie.Location = new Point(311, 217);
+            btn_UpdateMovie.Location = new Point(311, 205);
             btn_UpdateMovie.Name = "btn_UpdateMovie";
             btn_UpdateMovie.Size = new Size(129, 23);
             btn_UpdateMovie.TabIndex = 51;
@@ -274,7 +279,7 @@
             movieGrid.AllowUserToAddRows = false;
             movieGrid.AllowUserToDeleteRows = false;
             movieGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            movieGrid.Location = new Point(29, 252);
+            movieGrid.Location = new Point(29, 240);
             movieGrid.Name = "movieGrid";
             movieGrid.ReadOnly = true;
             movieGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -293,38 +298,12 @@
             label8.TabIndex = 48;
             label8.Text = "Manage Movies";
             // 
-            // Button_openFileDialog
-            // 
-            Button_openFileDialog.BackColor = Color.Firebrick;
-            Button_openFileDialog.Cursor = Cursors.Hand;
-            Button_openFileDialog.ForeColor = Color.White;
-            Button_openFileDialog.Location = new Point(551, 116);
-            Button_openFileDialog.Name = "Button_openFileDialog";
-            Button_openFileDialog.Size = new Size(165, 23);
-            Button_openFileDialog.TabIndex = 72;
-            Button_openFileDialog.Text = "Select file";
-            Button_openFileDialog.TextImageRelation = TextImageRelation.TextAboveImage;
-            Button_openFileDialog.UseVisualStyleBackColor = false;
-            Button_openFileDialog.Click += Button_openFileDialog_Click;
-            // 
-            // openFileDialog1
-            // 
-            openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // textBox_Poster
-            // 
-            textBox_Poster.Location = new Point(551, 144);
-            textBox_Poster.Name = "textBox_Poster";
-            textBox_Poster.Size = new Size(165, 23);
-            textBox_Poster.TabIndex = 73;
-            // 
             // UpdateMovie
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 475);
+            ClientSize = new Size(800, 450);
             Controls.Add(textBox_Poster);
-            Controls.Add(Button_openFileDialog);
             Controls.Add(label12);
             Controls.Add(label11);
             Controls.Add(label10);
@@ -357,6 +336,8 @@
         }
 
         #endregion
+
+        private TextBox textBox_Poster;
         private Label label12;
         private Label label11;
         private Label label10;
@@ -381,8 +362,5 @@
         private Button button1;
         private DataGridView movieGrid;
         private Label label8;
-        private Button Button_openFileDialog;
-        private OpenFileDialog openFileDialog1;
-        private TextBox textBox_Poster;
     }
 }

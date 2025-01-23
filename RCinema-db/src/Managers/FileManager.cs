@@ -68,22 +68,7 @@ namespace MovieTicketApp.src.Managers
                                             if (int.TryParse(parts[7], out day))
                                             {
                                                 string description = parts[8];
-                                                byte[] poster = null;
-
-                                                // Check if the poster part is not empty or null
-                                                if (!string.IsNullOrEmpty(parts[9]))
-                                                {
-                                                    try
-                                                    {
-                                                        // Convert the poster (base64 encoded) string to byte array
-                                                        poster = Convert.FromBase64String(parts[9]);
-                                                    }
-                                                    catch (FormatException ex)
-                                                    {
-                                                        Console.WriteLine($"Error converting poster base64 string: {ex.Message}");
-                                                        // Handle the error as needed (e.g., set a default poster, log it, etc.)
-                                                    }
-                                                }
+                                                string poster = parts[9];
 
                                                 // Create a Movie object with the provided 'id'
                                                 Movie movie = new Movie(id, title, genre, hours, minutes, year, month, day, description, poster);
