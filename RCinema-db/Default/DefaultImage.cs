@@ -8,6 +8,6 @@ namespace RCinema_db.FrontEnd.Default
 {
     public static class DefaultImage
     {
-        public static Image GetCinemaImage_NewLife() { return Image.FromFile(Path.Combine(DefaultPaths.DefaultCinemaImagesPath, "newLife.png")); }
+        public static Image GetDefaultImage() { return Image.FromFile(Path.Combine(DefaultPaths.DefaultCinemaImagesPath, "defaultFilm.jpg")); }
     }
 }

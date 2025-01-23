@@ -1,4 +1,5 @@
 ﻿using RCinema_db.Account;
+using RCinema_db.FrontEnd.Default;
 using RCinema_db.src.Movie;
 using RCinema_db.UserForm;
 using System;
@@ -107,33 +108,31 @@ namespace RCinema_db.User
                 Movie selectedMovie = (Movie)listbox_Movies.SelectedItem;
 
                 lbl_Movie_Title.Text = selectedMovie.Title;
-                lbl_Movie_Duration_Genre.Text = $"{selectedMovie.Duration}, {selectedMovie.Genre}";
+                lbl_Movie_Duration_Genre.Text = $"{selectedMovie.Duration} mins, {selectedMovie.Genre}";
                 lbl_Movie_Release_Date.Text = $"Released on {selectedMovie.ReleaseDate:dd MMM yyyy}";
                 txt_Movie_Description.Text = selectedMovie.Description;
 
-                int movieId = selectedMovie.Id;  // Получаем movieId
-                string moviePoster = $"{movieId}.png";
+                string moviePoster = selectedMovie.Poster;  // Get the poster path or filename from the Movie object
 
                 try
                 {
-                    string basePath = @"C:\YourImageDirectory\"; // Укажите базовый путь к папке с изображениями
-                    string fullPath = Path.Combine(basePath, moviePoster);
-
-                    if (File.Exists(fullPath)) // Проверяем, существует ли файл
+                    if (File.Exists(moviePoster)) // Check if the file exists using the path stored in the Poster column
                     {
-                        picbox_Movie_Poster.Image = Image.FromFile(fullPath);
+                        picbox_Movie_Poster.Image = Image.FromFile(moviePoster);  // Load the image from the file
                     }
                     else
                     {
-                        picbox_Movie_Poster.Image = null; // Если файл не существует, очищаем картинку
+                        picbox_Movie_Poster.Image = DefaultImage.GetDefaultImage();  // Use default image if file doesn't exist
                     }
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine($"An error occurred while loading the poster: {ex.Message}");
+                    picbox_Movie_Poster.Image = DefaultImage.GetDefaultImage();  // Use default image in case of error
                 }
             }
         }
+
 
         private void button2_Click(object sender, EventArgs e)
         {

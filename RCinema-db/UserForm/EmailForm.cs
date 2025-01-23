@@ -5,6 +5,7 @@ using System.IO;
 using System.Net;
 using System.Net.Mail;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace RCinema_db.UserForm
 {
@@ -65,31 +66,61 @@ namespace RCinema_db.UserForm
 
             string pdfPath = Path.Combine(outputDir, "BookingDetails.pdf");
 
-            // Создание PDF с использованием PDFSharp
             PdfDocument document = new PdfDocument();
             PdfPage page = document.AddPage();
             XGraphics gfx = XGraphics.FromPdfPage(page);
             XFont fontTitle = new XFont("Arial", 16);
             XFont fontText = new XFont("Arial", 12);
 
-            // Добавление изображения (например, логотип)
-            string imagePath = "path_to_image.jpg";  // Замените на путь к вашему изображению
-            if (File.Exists(imagePath))
+            byte[] imageBytes = GetMoviePosterFromDatabase(_movieTitle);
+            if (imageBytes != null)
             {
-                XImage image = XImage.FromFile(imagePath);
-                gfx.DrawImage(image, 40, 40, 100, 100); // Размещение изображения
+                using (MemoryStream ms = new MemoryStream(imageBytes))
+                {
+                    XImage image = XImage.FromStream(ms);
+                    gfx.DrawImage(image, 40, 40, 100, 100);
+                }
             }
 
-            // Добавление текста
             gfx.DrawString($"Movie: {_movieTitle}", fontTitle, XBrushes.Black, 40, 160);
             gfx.DrawString($"Seats: {_seats}", fontText, XBrushes.Black, 40, 180);
             gfx.DrawString($"Tickets: {_tickets}", fontText, XBrushes.Black, 40, 200);
             gfx.DrawString($"Total: {_subtotal}", fontText, XBrushes.Black, 40, 220);
 
-            // Сохранение документа
             document.Save(pdfPath);
 
             return pdfPath;
+        }
+
+        private byte[] GetMoviePosterFromDatabase(string movieTitle)
+        {
+            byte[] imageBytes = null;
+
+            string connectionString = Database.DatabaseConnection.connectionString; 
+            string query = "SELECT Poster FROM Movies WHERE Title = @MovieTitle";
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@MovieTitle", movieTitle);
+
+                try
+                {
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        imageBytes = reader["Poster"] as byte[];
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error retrieving image from database: {ex.Message}");
+                }
+            }
+
+            return imageBytes;
         }
 
         public static void SendEmail(string recipientEmail, string pdfPath)
@@ -104,11 +135,11 @@ namespace RCinema_db.UserForm
 
                 using (MailMessage mail = new MailMessage())
                 {
-                    mail.From = new MailAddress("martinsild.mr@gmail.com"); // Ваш email
-                    mail.To.Add(recipientEmail); // Email получателя
+                    mail.From = new MailAddress("martinsild.mr@gmail.com");
+                    mail.To.Add(recipientEmail); 
                     mail.Subject = "Your Booking Details";
                     mail.Body = "Please find your booking details attached.";
-                    mail.Attachments.Add(new Attachment(pdfPath)); // Вложение (PDF)
+                    mail.Attachments.Add(new Attachment(pdfPath));
 
                     using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
                     {

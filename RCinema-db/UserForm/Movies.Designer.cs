@@ -126,7 +126,7 @@
             picbox_Movie_Poster.MaximumSize = new Size(150, 200);
             picbox_Movie_Poster.Name = "picbox_Movie_Poster";
             picbox_Movie_Poster.Size = new Size(150, 200);
-            picbox_Movie_Poster.SizeMode = PictureBoxSizeMode.AutoSize;
+            picbox_Movie_Poster.SizeMode = PictureBoxSizeMode.Zoom;
             picbox_Movie_Poster.TabIndex = 23;
             picbox_Movie_Poster.TabStop = false;
             // 
