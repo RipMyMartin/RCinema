@@ -33,20 +33,17 @@
             txt_LastName = new TextBox();
             txt_FirstName = new TextBox();
             lbl_LogIn = new Label();
-            lbl_Already_Member = new Label();
             lbl_FirstName = new Label();
             btn_SignUp = new Button();
             lbl_LastName = new Label();
-            lbl_Min_Password_Length = new Label();
             lbl_Password = new Label();
             lbl_Username = new Label();
-            lbl_Become_Member = new Label();
             lbl_Title_SignUp = new Label();
             SuspendLayout();
             // 
             // txt_Password
             // 
-            txt_Password.Location = new Point(69, 250);
+            txt_Password.Location = new Point(294, 276);
             txt_Password.Name = "txt_Password";
             txt_Password.PasswordChar = '*';
             txt_Password.Size = new Size(260, 23);
@@ -54,21 +51,21 @@
             // 
             // txt_Email
             // 
-            txt_Email.Location = new Point(69, 178);
+            txt_Email.Location = new Point(294, 123);
             txt_Email.Name = "txt_Email";
             txt_Email.Size = new Size(260, 23);
             txt_Email.TabIndex = 32;
             // 
             // txt_LastName
             // 
-            txt_LastName.Location = new Point(471, 250);
+            txt_LastName.Location = new Point(294, 222);
             txt_LastName.Name = "txt_LastName";
             txt_LastName.Size = new Size(260, 23);
             txt_LastName.TabIndex = 31;
             // 
             // txt_FirstName
             // 
-            txt_FirstName.Location = new Point(471, 178);
+            txt_FirstName.Location = new Point(294, 173);
             txt_FirstName.Name = "txt_FirstName";
             txt_FirstName.Size = new Size(260, 23);
             txt_FirstName.TabIndex = 30;
@@ -78,29 +75,20 @@
             lbl_LogIn.AutoSize = true;
             lbl_LogIn.Cursor = Cursors.Hand;
             lbl_LogIn.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Underline);
-            lbl_LogIn.ForeColor = Color.Firebrick;
-            lbl_LogIn.Location = new Point(450, 322);
+            lbl_LogIn.ForeColor = Color.Yellow;
+            lbl_LogIn.Location = new Point(396, 317);
             lbl_LogIn.Name = "lbl_LogIn";
             lbl_LogIn.Size = new Size(60, 20);
             lbl_LogIn.TabIndex = 29;
             lbl_LogIn.Text = "LOG IN";
             lbl_LogIn.Click += lbl_LogIn_Click_1;
             // 
-            // lbl_Already_Member
-            // 
-            lbl_Already_Member.AutoSize = true;
-            lbl_Already_Member.Font = new Font("Segoe UI", 11.25F);
-            lbl_Already_Member.Location = new Point(294, 322);
-            lbl_Already_Member.Name = "lbl_Already_Member";
-            lbl_Already_Member.Size = new Size(139, 20);
-            lbl_Already_Member.TabIndex = 28;
-            lbl_Already_Member.Text = "Already a member?";
-            // 
             // lbl_FirstName
             // 
             lbl_FirstName.AutoSize = true;
             lbl_FirstName.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
-            lbl_FirstName.Location = new Point(471, 149);
+            lbl_FirstName.ForeColor = SystemColors.Control;
+            lbl_FirstName.Location = new Point(378, 149);
             lbl_FirstName.Name = "lbl_FirstName";
             lbl_FirstName.Size = new Size(85, 21);
             lbl_FirstName.TabIndex = 27;
@@ -108,11 +96,11 @@
             // 
             // btn_SignUp
             // 
-            btn_SignUp.BackColor = Color.Firebrick;
+            btn_SignUp.BackColor = Color.DarkOrange;
             btn_SignUp.Cursor = Cursors.Hand;
             btn_SignUp.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold);
             btn_SignUp.ForeColor = SystemColors.Window;
-            btn_SignUp.Location = new Point(273, 372);
+            btn_SignUp.Location = new Point(299, 354);
             btn_SignUp.Name = "btn_SignUp";
             btn_SignUp.Size = new Size(255, 43);
             btn_SignUp.TabIndex = 26;
@@ -124,26 +112,19 @@
             // 
             lbl_LastName.AutoSize = true;
             lbl_LastName.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold);
-            lbl_LastName.Location = new Point(471, 221);
+            lbl_LastName.ForeColor = SystemColors.Control;
+            lbl_LastName.Location = new Point(386, 199);
             lbl_LastName.Name = "lbl_LastName";
             lbl_LastName.Size = new Size(77, 20);
             lbl_LastName.TabIndex = 25;
             lbl_LastName.Text = "Last name";
             // 
-            // lbl_Min_Password_Length
-            // 
-            lbl_Min_Password_Length.AutoSize = true;
-            lbl_Min_Password_Length.Location = new Point(69, 276);
-            lbl_Min_Password_Length.Name = "lbl_Min_Password_Length";
-            lbl_Min_Password_Length.Size = new Size(140, 15);
-            lbl_Min_Password_Length.TabIndex = 24;
-            lbl_Min_Password_Length.Text = "Minimum of 4 characters";
-            // 
             // lbl_Password
             // 
             lbl_Password.AutoSize = true;
             lbl_Password.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold);
-            lbl_Password.Location = new Point(72, 221);
+            lbl_Password.ForeColor = SystemColors.Control;
+            lbl_Password.Location = new Point(386, 253);
             lbl_Password.Name = "lbl_Password";
             lbl_Password.Size = new Size(73, 20);
             lbl_Password.TabIndex = 23;
@@ -153,28 +134,19 @@
             // 
             lbl_Username.AutoSize = true;
             lbl_Username.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold);
-            lbl_Username.Location = new Point(69, 149);
+            lbl_Username.ForeColor = SystemColors.Control;
+            lbl_Username.Location = new Point(386, 100);
             lbl_Username.Name = "lbl_Username";
             lbl_Username.Size = new Size(78, 20);
             lbl_Username.TabIndex = 22;
             lbl_Username.Text = "Username";
             // 
-            // lbl_Become_Member
-            // 
-            lbl_Become_Member.AutoSize = true;
-            lbl_Become_Member.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold);
-            lbl_Become_Member.Location = new Point(312, 89);
-            lbl_Become_Member.Name = "lbl_Become_Member";
-            lbl_Become_Member.Size = new Size(173, 25);
-            lbl_Become_Member.TabIndex = 21;
-            lbl_Become_Member.Text = "Become a Member";
-            // 
             // lbl_Title_SignUp
             // 
             lbl_Title_SignUp.AutoSize = true;
             lbl_Title_SignUp.Font = new Font("Segoe UI", 21.75F, FontStyle.Bold);
-            lbl_Title_SignUp.ForeColor = Color.Firebrick;
-            lbl_Title_SignUp.Location = new Point(273, 36);
+            lbl_Title_SignUp.ForeColor = Color.Olive;
+            lbl_Title_SignUp.Location = new Point(299, 9);
             lbl_Title_SignUp.Name = "lbl_Title_SignUp";
             lbl_Title_SignUp.Size = new Size(255, 40);
             lbl_Title_SignUp.TabIndex = 20;
@@ -184,20 +156,18 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ActiveCaptionText;
             ClientSize = new Size(800, 450);
             Controls.Add(txt_Password);
             Controls.Add(txt_Email);
             Controls.Add(txt_LastName);
             Controls.Add(txt_FirstName);
             Controls.Add(lbl_LogIn);
-            Controls.Add(lbl_Already_Member);
             Controls.Add(lbl_FirstName);
             Controls.Add(btn_SignUp);
             Controls.Add(lbl_LastName);
-            Controls.Add(lbl_Min_Password_Length);
             Controls.Add(lbl_Password);
             Controls.Add(lbl_Username);
-            Controls.Add(lbl_Become_Member);
             Controls.Add(lbl_Title_SignUp);
             Name = "SignUp";
             Text = "SignUp";
@@ -212,14 +182,11 @@
         private TextBox txt_LastName;
         private TextBox txt_FirstName;
         private Label lbl_LogIn;
-        private Label lbl_Already_Member;
         private Label lbl_FirstName;
         private Button btn_SignUp;
         private Label lbl_LastName;
-        private Label lbl_Min_Password_Length;
         private Label lbl_Password;
         private Label lbl_Username;
-        private Label lbl_Become_Member;
         private Label lbl_Title_SignUp;
     }
 }

@@ -49,10 +49,10 @@
             // 
             // btn_EditMovie
             // 
-            btn_EditMovie.BackColor = Color.Firebrick;
+            btn_EditMovie.BackColor = Color.Transparent;
             btn_EditMovie.Cursor = Cursors.Hand;
             btn_EditMovie.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold);
-            btn_EditMovie.ForeColor = Color.White;
+            btn_EditMovie.ForeColor = Color.Black;
             btn_EditMovie.Location = new Point(291, 237);
             btn_EditMovie.Name = "btn_EditMovie";
             btn_EditMovie.Size = new Size(219, 40);
@@ -63,10 +63,10 @@
             // 
             // btn_EditUser
             // 
-            btn_EditUser.BackColor = Color.Firebrick;
+            btn_EditUser.BackColor = Color.Transparent;
             btn_EditUser.Cursor = Cursors.Hand;
             btn_EditUser.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold);
-            btn_EditUser.ForeColor = Color.White;
+            btn_EditUser.ForeColor = Color.Black;
             btn_EditUser.Location = new Point(291, 156);
             btn_EditUser.Name = "btn_EditUser";
             btn_EditUser.Size = new Size(219, 39);
@@ -79,7 +79,7 @@
             // 
             lbl_Title_SignUp.AutoSize = true;
             lbl_Title_SignUp.Font = new Font("Segoe UI", 21.75F, FontStyle.Bold);
-            lbl_Title_SignUp.ForeColor = Color.Firebrick;
+            lbl_Title_SignUp.ForeColor = Color.Orange;
             lbl_Title_SignUp.Location = new Point(311, 65);
             lbl_Title_SignUp.Name = "lbl_Title_SignUp";
             lbl_Title_SignUp.Size = new Size(189, 40);
@@ -90,6 +90,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ActiveCaptionText;
             ClientSize = new Size(800, 450);
             Controls.Add(btn_Log_Out);
             Controls.Add(btn_EditMovie);

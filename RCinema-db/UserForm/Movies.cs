@@ -76,7 +76,7 @@ namespace RCinema_db.User
 
         private void Exit_Click_1(object sender, EventArgs e)
         {
-            System.Windows.Forms.Application.Exit();
+            Application.Exit();
         }
 
         private void btn_UserProfile_Click_2(object sender, EventArgs e)
@@ -86,7 +86,7 @@ namespace RCinema_db.User
             this.Close();
         }
 
-        private void btn_Log_Out_Click_1(object sender, EventArgs e)
+        private void btn_Log_Out_Click(object sender, EventArgs e)
         {
             Login login = new Login();
             login.Show();
@@ -126,7 +126,7 @@ namespace RCinema_db.User
         }
 
 
-        private void button2_Click(object sender, EventArgs e)
+        private void btn_BuyTicket_Click(object sender, EventArgs e)
         {
             if (listbox_Movies.SelectedIndex >= 0)
             {
